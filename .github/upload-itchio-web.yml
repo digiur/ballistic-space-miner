@@ -1,0 +1,41 @@
+# SPDX-FileCopyrightText: 2023 Simon Dalvai <info@simondalvai.org>
+
+# SPDX-License-Identifier: CC0-1.0
+
+name: itch.io upload
+
+on:
+  push:
+    paths:
+      - "version"
+      - ".github/workflows/upload-itchio.yml"
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Create export directory builds
+        run: mkdir builds
+
+      - name: Create export directory html5
+        run: mkdir builds/html5
+
+      - name: Godot HTML5 export
+        uses: dulvui/godot-4-html-export@v1.0.0
+        with:
+          output-file-path: builds/html5/index.html
+          create-export-preset-cfg: false
+          godot-version: 4.2
+
+      - name: Upload to itch.io
+        uses: dulvui/itchio-butler-upload@v0.0.1
+        with:
+          working-directory: html5
+          api-key: ${{ secrets.ITCHIO_API_KEY }}
+          user: digiur
+          game: ballistic-space-miners
+          channel: html5
