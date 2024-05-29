@@ -27,7 +27,6 @@ jobs:
           output-file-path: builds/html5/index.html
           create-export-preset-cfg: false
           godot-version: 4.2
-          os: Linux
 
       - name: Upload to itch.io
         uses: dulvui/itchio-butler-upload@v0.0.1
