@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bl064vej3vfwc"]
+[gd_scene load_steps=9 format=3 uid="uid://bl064vej3vfwc"]
 
 [ext_resource type="PackedScene" uid="uid://bhjs65t6px30g" path="res://scenes/planet.tscn" id="1_5xw6d"]
 [ext_resource type="Script" path="res://scripts/debug_camera.gd" id="3_3v72u"]
@@ -9,6 +9,14 @@
 radius = 10000.0
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dawwb"]
+resource_local_to_scene = true
+bounce = 0.8
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_wx1oh"]
+resource_local_to_scene = true
+bounce = 0.8
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_pqene"]
 resource_local_to_scene = true
 bounce = 0.8
 
@@ -69,9 +77,9 @@ linear_velocity = Vector2(1000, 0)
 
 [node name="RigidBody2D3" parent="." instance=ExtResource("4_p2pdp")]
 position = Vector2(696, 37)
-physics_material_override = SubResource("PhysicsMaterial_dawwb")
+physics_material_override = SubResource("PhysicsMaterial_wx1oh")
 linear_velocity = Vector2(-1000, 0)
 
 [node name="RigidBody2D2" parent="." instance=ExtResource("4_p2pdp")]
 position = Vector2(583, -85)
-physics_material_override = SubResource("PhysicsMaterial_dawwb")
+physics_material_override = SubResource("PhysicsMaterial_pqene")

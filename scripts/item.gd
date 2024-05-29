@@ -1,6 +1,7 @@
 extends RigidBody2D
 
-@export var planetsideDampVelocity:float = 1
+@export var damp_decay_velocity:float = 1
+@export var bounce_decay_factor:float = 0.95
 
 @onready var sleep_timer:Timer = %SleepTimer as Timer
 
@@ -10,10 +11,10 @@ var lifetime:float = 0.0
 func _physics_process(delta:float):
 	lifetime += delta
 	if planetside:
-		linear_damp += planetsideDampVelocity * delta
+		linear_damp += damp_decay_velocity * delta
 
 func _on_body_entered(_body):
-	physics_material_override.bounce *= Global.BOUNCE_DECAY
+	physics_material_override.bounce *= bounce_decay_factor
 	planetside = true
 
 func _on_area_2d_body_exited(_body):
@@ -32,5 +33,5 @@ func _on_sleep_timer_timeout():
 
 func free_me():
 	if not is_queued_for_deletion():
-		print("free item alive for %ss" % lifetime)
+		print("free item alive for %.3f seconds" % lifetime)
 		queue_free()

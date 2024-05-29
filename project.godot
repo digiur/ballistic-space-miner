@@ -69,7 +69,7 @@ clear_spawners={
 2d/default_gravity=0.0
 2d/default_gravity_vector=Vector2(0, 0)
 2d/default_angular_damp=5.0
-2d/sleep_threshold_linear=20.0
+2d/sleep_threshold_linear=25.0
 2d/sleep_threshold_angular=100.0
 2d/time_before_sleep=0.1
 
