@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://hlrljg8iawgt"]
+
+[ext_resource type="Script" path="res://scripts/sling_spawner.gd" id="1_ihuyx"]
+
+[node name="SlingSpawner" type="Node2D"]
+script = ExtResource("1_ihuyx")
+
+[node name="Line2D" type="Line2D" parent="."]
+unique_name_in_owner = true
+points = PackedVector2Array(0, 0, 0, 0)
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhjs65t6px30g"]
+
+[ext_resource type="Script" path="res://scripts/planet.gd" id="1_dlfb6"]
+[ext_resource type="Texture2D" uid="uid://38fahgy6o52u" path="res://sprites/demo_planet.png" id="2_owba0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_11a1y"]
+resource_local_to_scene = true
+radius = 5000.0
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_uayg8"]
+resource_local_to_scene = true
+friction = 50.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hq0ok"]
+resource_local_to_scene = true
+radius = 100.0
+
+[node name="Planet" type="Node2D"]
+position = Vector2(573, 295)
+script = ExtResource("1_dlfb6")
+
+[node name="GravityArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_mask = 2
+gravity_space_override = 1
+gravity_point = true
+gravity_point_unit_distance = 100.0
+gravity_point_center = Vector2(0, 0)
+gravity_direction = Vector2(0, 0)
+gravity = 1.7546e+09
+
+[node name="GravityShape" type="CollisionShape2D" parent="GravityArea"]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_11a1y")
+debug_color = Color(0.894118, 0, 0.788235, 0.0392157)
+
+[node name="PlanetBody" type="StaticBody2D" parent="."]
+unique_name_in_owner = true
+collision_mask = 2
+physics_material_override = SubResource("PhysicsMaterial_uayg8")
+
+[node name="PlanetShape" type="CollisionShape2D" parent="PlanetBody"]
+unique_name_in_owner = true
+shape = SubResource("CircleShape2D_hq0ok")
+debug_color = Color(0.282232, 0.631038, 9.62615e-07, 0.42)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(0.195313, 0.195313)
+texture = ExtResource("2_owba0")
