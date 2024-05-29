@@ -28,10 +28,6 @@ jobs:
           create-export-preset-cfg: false
           godot-version: 4.2.2
 
-      - name: Define BUTLER_API_KEY
-        shell: bash
-        run: echo "BUTLER_API_KEY=${{ inputs.api-key }}" >> $GITHUB_ENV
-
       - name: Upload to itch.io
         uses: dulvui/itchio-butler-upload@v0.0.1
         with:
