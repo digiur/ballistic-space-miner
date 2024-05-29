@@ -18,11 +18,8 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      - name: Create export directory builds
-        run: mkdir builds
-
       - name: Create export directory html5
-        run: mkdir builds/html5
+        run: mkdir html5
 
       - name: Godot HTML5 export
         uses: dulvui/godot-4-html-export@v0.0.2
