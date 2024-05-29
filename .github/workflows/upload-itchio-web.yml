@@ -8,7 +8,7 @@ on:
   push:
     paths:
       - "version"
-      - ".github/workflows/upload-itchio.yml"
+      - ".github/workflows/upload-itchio-web.yml"
 
 jobs:
   deploy:
