@@ -6,13 +6,10 @@ name: itch.io upload
 
 on:
   push:
-    paths:
-      - "version"
-      - ".github/workflows/upload-itchio-web.yml"
-
+    branches:
+      - 'main'
 jobs:
   deploy:
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
