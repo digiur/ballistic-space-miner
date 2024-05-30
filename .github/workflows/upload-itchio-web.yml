@@ -24,7 +24,7 @@ jobs:
       - name: Godot HTML5 export
         uses: digiur/godot-4-html-export@v0.0.2
         with:
-          output-file-path: builds/html5/index.html
+          output-file-path: html5/index.html
           create-export-preset-cfg: false
           godot-version: 4.2.2
 
