@@ -19,7 +19,9 @@ extends Node2D
 		gravity_radius = value
 		update_child_properties = true
 
-@onready var gravity_area = %GravityArea as Area2D
+@onready var gravity_area = %GravityArea as Area2D:
+	get:
+		return gravity_area
 @onready var gravity_shape = %GravityShape as CollisionShape2D
 @onready var planet_body = %PlanetBody as StaticBody2D
 @onready var planet_shape = %PlanetShape as CollisionShape2D
@@ -30,8 +32,10 @@ const gravity_constant:float = 9.8
 var update_child_properties:bool = true
 
 func _process(_delta):
-	if(update_child_properties):
-		calculate_child_properties()
+	calculate_child_properties()
+
+func _physics_process(_delta):
+	calculate_child_properties()
 
 func _ready():
 	request_ready()
@@ -39,6 +43,9 @@ func _ready():
 	calculate_child_properties()
 
 func calculate_child_properties():
+	if not update_child_properties:
+		return
+
 	var volume:float = 4.0 / 3.0 * PI * (planet_radius * planet_radius * planet_radius)
 	var mass:float = density * volume
 	var surfaceGravity:float = gravity_constant * mass / (planet_radius * planet_radius)

@@ -48,7 +48,7 @@ func spawn_item(p:Vector2, v:Vector2):
 func _on_timer_timeout():
 	if clicking:
 		spawn_item(calc_position(), calc_velocity())
-		
+
 	for i:int in positions.size():
 		spawn_item(positions[i], velocities[i])
 

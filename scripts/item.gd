@@ -15,10 +15,12 @@ func _physics_process(delta:float):
 
 func _on_body_entered(_body):
 	physics_material_override.bounce *= bounce_decay_factor
+	can_sleep = true
 	planetside = true
 
 func _on_area_2d_body_exited(_body):
 	linear_damp = 0.0
+	can_sleep = false
 	planetside = false
 
 func _on_boundry_detector_area_exited(_area):
