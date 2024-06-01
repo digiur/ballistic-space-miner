@@ -2,12 +2,12 @@ extends Node2D
 
 @export var vectorMultiplier:float = 1.0
 
-@onready var line_2d = %Line2D
-@onready var timer = %Timer
+@onready var line_2d: = %Line2D as Line2D
+@onready var timer: = %Timer as Timer
 
-var vec_start:Vector2 = Vector2.ZERO
-var vec_fin:Vector2 = Vector2.ZERO
-var clicking:bool = false
+var vec_start: = Vector2.ZERO
+var vec_fin: = Vector2.ZERO
+var clicking: = false
 
 const SPAWNEE:PackedScene = preload("res://scenes/item.tscn")
 
@@ -37,6 +37,13 @@ func _process(_delta : float):
 		line_2d.points[0] = Vector2.ZERO
 		line_2d.points[1] = Vector2.ZERO
 
+func _on_timer_timeout():
+	if clicking:
+		spawn_item(calc_position(), calc_velocity())
+
+	for i:int in positions.size():
+		spawn_item(positions[i], velocities[i])
+
 func spawn_item(p:Vector2, v:Vector2):
 		var a:float = PI / 180.0
 		var spawnee = SPAWNEE.instantiate()
@@ -44,13 +51,6 @@ func spawn_item(p:Vector2, v:Vector2):
 		spawnee.initial_velocity = v
 		spawnee.position = p
 		add_child(spawnee)
-
-func _on_timer_timeout():
-	if clicking:
-		spawn_item(calc_position(), calc_velocity())
-
-	for i:int in positions.size():
-		spawn_item(positions[i], velocities[i])
 
 func calc_velocity() -> Vector2:
 	return (vec_start - vec_fin) * vectorMultiplier

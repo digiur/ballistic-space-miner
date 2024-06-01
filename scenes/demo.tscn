@@ -8,7 +8,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_tocbc"]
 radius = 10000.0
 
-[node name="Root" type="Node2D"]
+[node name="Game" type="Node2D"]
 
 [node name="DebugCamera" type="Camera2D" parent="."]
 position = Vector2(572, 328)
@@ -56,13 +56,13 @@ position = Vector2(2500, -268)
 position = Vector2(1289, 1239)
 planet_radius = 75.0
 
-[node name="Item2" parent="." instance=ExtResource("5_r6l22")]
+[node name="Item2" parent="Sector" instance=ExtResource("5_r6l22")]
 position = Vector2(587, 56)
 initial_velocity = Vector2(1000, 0)
 
-[node name="Item3" parent="." instance=ExtResource("5_r6l22")]
+[node name="Item3" parent="Sector" instance=ExtResource("5_r6l22")]
 position = Vector2(696, 37)
 initial_velocity = Vector2(-1000, 0)
 
-[node name="Item4" parent="." instance=ExtResource("5_r6l22")]
+[node name="Item4" parent="Sector" instance=ExtResource("5_r6l22")]
 position = Vector2(583, -85)

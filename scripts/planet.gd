@@ -19,13 +19,11 @@ extends Node2D
 		gravity_radius = value
 		update_child_properties = true
 
-@onready var gravity_area = %GravityArea as Area2D:
-	get:
-		return gravity_area
-@onready var gravity_shape = %GravityShape as CollisionShape2D
-@onready var planet_body = %PlanetBody as StaticBody2D
-@onready var planet_shape = %PlanetShape as CollisionShape2D
-@onready var sprite_2d = %Sprite2D as Sprite2D
+@onready var gravity_area: = %GravityArea as Area2D
+@onready var gravity_shape: = %GravityShape as CollisionShape2D
+@onready var planet_body: = %PlanetBody as StaticBody2D
+@onready var planet_shape: = %PlanetShape as CollisionShape2D
+@onready var sprite_2d: = %Sprite2D as Sprite2D
 
 const gravity_constant:float = 9.8
 
