@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bqv6ekod40hfx"
-path="res://.godot/imported/Fall (32x32).png-a9e8a6a84a96a1f209e30185b2081a16.ctex"
+uid="uid://deaj0vv6l0h6c"
+path="res://.godot/imported/players_green_x3.png-902ef122d6af003fe968a96bfb3b7ec0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/astronaut/Fall (32x32).png"
-dest_files=["res://.godot/imported/Fall (32x32).png-a9e8a6a84a96a1f209e30185b2081a16.ctex"]
+source_file="res://sprites/green_astronaut/players_green_x3.png"
+dest_files=["res://.godot/imported/players_green_x3.png-902ef122d6af003fe968a96bfb3b7ec0.ctex"]
 
 [params]
 

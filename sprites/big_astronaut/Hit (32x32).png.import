@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djh1c35lyinwy"
-path="res://.godot/imported/Run (32x32).png-a9b6974b6f789dcf6c722bbcb43b7322.ctex"
+uid="uid://c170ktm442xnl"
+path="res://.godot/imported/Hit (32x32).png-f5b9c8b4666d0fc0b011b3bb277610e8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/astronaut/Run (32x32).png"
-dest_files=["res://.godot/imported/Run (32x32).png-a9b6974b6f789dcf6c722bbcb43b7322.ctex"]
+source_file="res://sprites/big_astronaut/Hit (32x32).png"
+dest_files=["res://.godot/imported/Hit (32x32).png-f5b9c8b4666d0fc0b011b3bb277610e8.ctex"]
 
 [params]
 

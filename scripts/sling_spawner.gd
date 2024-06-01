@@ -39,9 +39,9 @@ func _process(_delta : float):
 
 func spawn_item(p:Vector2, v:Vector2):
 		var a:float = PI / 180.0
-		var spawnee:RigidBody2D = SPAWNEE.instantiate() as RigidBody2D
+		var spawnee = SPAWNEE.instantiate()
 		v = v.rotated(randf_range(-a, a)) * randf_range(1.0 - a, 1.0 + a)
-		spawnee.linear_velocity = v
+		spawnee.initial_velocity = v
 		spawnee.position = p
 		add_child(spawnee)
 

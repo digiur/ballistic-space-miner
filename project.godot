@@ -62,7 +62,8 @@ clear_spawners={
 
 2d_physics/layer_1="Planets"
 2d_physics/layer_2="Items"
-2d_physics/layer_3="Boundary"
+2d_physics/layer_3="Sector"
+2d_physics/layer_4="Player"
 
 [physics]
 

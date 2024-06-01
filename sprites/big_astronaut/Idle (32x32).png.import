@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vjggvjmh2wae"
-path="res://.godot/imported/players green x2.png-bc009219ec96e122ade366fb9dbbf67e.ctex"
+uid="uid://04wj2i7sr1if"
+path="res://.godot/imported/Idle (32x32).png-d53c37a08cd8fe34521c1525f392a0e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/green_astronaut/players green x2.png"
-dest_files=["res://.godot/imported/players green x2.png-bc009219ec96e122ade366fb9dbbf67e.ctex"]
+source_file="res://sprites/big_astronaut/Idle (32x32).png"
+dest_files=["res://.godot/imported/Idle (32x32).png-d53c37a08cd8fe34521c1525f392a0e4.ctex"]
 
 [params]
 
