@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bl064vej3vfwc"]
+[gd_scene load_steps=7 format=3 uid="uid://bl064vej3vfwc"]
 
 [ext_resource type="PackedScene" uid="uid://bhjs65t6px30g" path="res://scenes/planet.tscn" id="1_5xw6d"]
 [ext_resource type="Script" path="res://scripts/debug_camera.gd" id="3_3v72u"]
 [ext_resource type="PackedScene" uid="uid://hlrljg8iawgt" path="res://scenes/sling_spawner.tscn" id="4_q44g3"]
+[ext_resource type="PackedScene" uid="uid://btwmqousqss63" path="res://scenes/player.tscn" id="5_6xv1j"]
 [ext_resource type="PackedScene" uid="uid://dopu3wr2g8pa7" path="res://scenes/item.tscn" id="5_r6l22"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tocbc"]
@@ -16,6 +17,51 @@ script = ExtResource("3_3v72u")
 
 [node name="SlingSpawner" parent="." instance=ExtResource("4_q44g3")]
 
+[node name="Planet" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(573, 357)
+planet_radius = 200.0
+
+[node name="Planet2" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(111, -50)
+
+[node name="Planet3" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(73, 777)
+
+[node name="Planet4" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(1864, 139)
+planet_radius = 250.0
+
+[node name="Planet5" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(-893, 619)
+planet_radius = 200.0
+
+[node name="Planet6" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(1146, -678)
+
+[node name="Planet7" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(2507, 805)
+planet_radius = 150.0
+
+[node name="Planet8" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(2500, -268)
+
+[node name="Planet9" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(1289, 1239)
+planet_radius = 75.0
+
+[node name="Item2" parent="." instance=ExtResource("5_r6l22")]
+position = Vector2(587, 56)
+initial_velocity = Vector2(1000, 0)
+
+[node name="Item3" parent="." instance=ExtResource("5_r6l22")]
+position = Vector2(696, 37)
+initial_velocity = Vector2(-1000, 0)
+
+[node name="Item4" parent="." instance=ExtResource("5_r6l22")]
+position = Vector2(583, -85)
+
+[node name="Player" parent="." instance=ExtResource("5_6xv1j")]
+
 [node name="Sector" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 0
@@ -23,46 +69,3 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sector"]
 position = Vector2(1078, 561)
 shape = SubResource("CircleShape2D_tocbc")
-
-[node name="Planet" parent="Sector" instance=ExtResource("1_5xw6d")]
-position = Vector2(573, 357)
-planet_radius = 200.0
-
-[node name="Planet2" parent="Sector" instance=ExtResource("1_5xw6d")]
-position = Vector2(111, -50)
-
-[node name="Planet3" parent="Sector" instance=ExtResource("1_5xw6d")]
-position = Vector2(73, 777)
-
-[node name="Planet4" parent="Sector" instance=ExtResource("1_5xw6d")]
-position = Vector2(1864, 139)
-planet_radius = 250.0
-
-[node name="Planet5" parent="Sector" instance=ExtResource("1_5xw6d")]
-position = Vector2(-893, 619)
-planet_radius = 200.0
-
-[node name="Planet6" parent="Sector" instance=ExtResource("1_5xw6d")]
-position = Vector2(1146, -678)
-
-[node name="Planet7" parent="Sector" instance=ExtResource("1_5xw6d")]
-position = Vector2(2507, 805)
-planet_radius = 150.0
-
-[node name="Planet8" parent="Sector" instance=ExtResource("1_5xw6d")]
-position = Vector2(2500, -268)
-
-[node name="Planet9" parent="Sector" instance=ExtResource("1_5xw6d")]
-position = Vector2(1289, 1239)
-planet_radius = 75.0
-
-[node name="Item2" parent="Sector" instance=ExtResource("5_r6l22")]
-position = Vector2(587, 56)
-initial_velocity = Vector2(1000, 0)
-
-[node name="Item3" parent="Sector" instance=ExtResource("5_r6l22")]
-position = Vector2(696, 37)
-initial_velocity = Vector2(-1000, 0)
-
-[node name="Item4" parent="Sector" instance=ExtResource("5_r6l22")]
-position = Vector2(583, -85)
