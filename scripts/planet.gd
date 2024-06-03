@@ -1,5 +1,5 @@
 @tool
-extends Node2D
+class_name Planet extends Node2D
 
 @export var planet_radius:float = 100.0:
 	set(value):
@@ -25,8 +25,6 @@ extends Node2D
 @onready var planet_shape: = %PlanetShape as CollisionShape2D
 @onready var sprite_2d: = %Sprite2D as Sprite2D
 
-const gravity_constant:float = 9.8
-
 var update_child_properties:bool = true
 
 func _process(_delta):
@@ -44,14 +42,9 @@ func calculate_child_properties():
 	if not update_child_properties:
 		return
 
-	var volume:float = 4.0 / 3.0 * PI * (planet_radius * planet_radius * planet_radius)
-	var mass:float = density * volume
-	var surfaceGravity:float = gravity_constant * mass / (planet_radius * planet_radius)
-
 	planet_shape.shape.radius = planet_radius
-	gravity_area.gravity = surfaceGravity
+	gravity_area.gravity = Global.calculate_gravity_acceleration(planet_radius, density)
 	gravity_area.gravity_point_unit_distance = planet_radius
-	planet_body.physics_material_override.friction = 50
 	gravity_shape.shape.radius = gravity_radius
 
 	if not Engine.is_editor_hint():

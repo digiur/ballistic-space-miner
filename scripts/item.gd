@@ -1,7 +1,6 @@
 extends Node2D
 
 @export var damp_decay_velocity:float = 1.0
-@export var bounce_decay_factor:float = 0.95
 
 @export var initial_velocity: = Vector2.ZERO
 
@@ -19,19 +18,19 @@ func _physics_process(delta:float):
 	if planetside:
 		item_body.linear_damp += damp_decay_velocity * delta
 
-func _on_item_body_body_entered(body):
-	item_body.physics_material_override.bounce *= bounce_decay_factor
+func _on_item_body_body_entered(_body):
+	item_body.physics_material_override.bounce *= Global.bounce_decay_factor
 	item_body.can_sleep = true
 	planetside = true
 
-func _on_planet_detector_body_exited(body):
+func _on_planet_detector_body_exited(_body):
 	item_body.linear_damp = 0.0
 	item_body.can_sleep = false
 	planetside = false
 
-func _on_sector_detector_area_exited(area):
+func _on_sector_detector_area_exited(_area):
 	if not is_queued_for_deletion():
-		print("item exited sector")
+		#print("item exited sector")
 		free_me()
 
 func _on_item_body_sleeping_state_changed():
@@ -40,10 +39,10 @@ func _on_item_body_sleeping_state_changed():
 
 func _on_sleep_time_timeout():
 	if not is_queued_for_deletion():
-		print("item timed out in its sleep")
+		#print("item timed out in its sleep")
 		free_me()
 
 func free_me():
 	if not is_queued_for_deletion():
-		print("alive for %.3f seconds" % lifetime)
+		#print("alive for %.3f seconds" % lifetime)
 		queue_free()

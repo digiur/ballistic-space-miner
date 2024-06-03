@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bl064vej3vfwc"]
+[gd_scene load_steps=8 format=3 uid="uid://bl064vej3vfwc"]
 
 [ext_resource type="PackedScene" uid="uid://bhjs65t6px30g" path="res://scenes/planet.tscn" id="1_5xw6d"]
+[ext_resource type="Script" path="res://scripts/demo.gd" id="1_g3g33"]
 [ext_resource type="Script" path="res://scripts/debug_camera.gd" id="3_3v72u"]
 [ext_resource type="PackedScene" uid="uid://hlrljg8iawgt" path="res://scenes/sling_spawner.tscn" id="4_q44g3"]
 [ext_resource type="PackedScene" uid="uid://btwmqousqss63" path="res://scenes/player.tscn" id="5_6xv1j"]
@@ -10,10 +11,16 @@
 radius = 10000.0
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_g3g33")
+print_input = false
 
-[node name="DebugCamera" type="Camera2D" parent="."]
+[node name="DebugCamera" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
 position = Vector2(572, 328)
+ignore_rotation = false
+zoom = Vector2(2, 2)
 script = ExtResource("3_3v72u")
+follow_mode = true
+follow = NodePath("../Player")
 
 [node name="SlingSpawner" parent="." instance=ExtResource("4_q44g3")]
 
@@ -61,6 +68,7 @@ initial_velocity = Vector2(-1000, 0)
 position = Vector2(583, -85)
 
 [node name="Player" parent="." instance=ExtResource("5_6xv1j")]
+position = Vector2(950, -208)
 
 [node name="Sector" type="Area2D" parent="."]
 collision_layer = 4

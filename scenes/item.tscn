@@ -7,37 +7,25 @@
 resource_local_to_scene = true
 bounce = 0.8
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_rrmsc"]
+radius = 8.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_1rul8"]
 radius = 15.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_13nig"]
 radius = 5.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rrmsc"]
-
 [node name="Item" type="Node2D"]
 script = ExtResource("1_d2gj1")
 
 [node name="ItemBody" type="RigidBody2D" parent="."]
 unique_name_in_owner = true
-collision_layer = 2
+collision_layer = 4
 physics_material_override = SubResource("PhysicsMaterial_pwcon")
 can_sleep = false
 max_contacts_reported = 1
 contact_monitor = true
-
-[node name="PlanetDetector" type="Area2D" parent="ItemBody"]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemBody/PlanetDetector"]
-shape = SubResource("CircleShape2D_1rul8")
-
-[node name="SectorDetector" type="Area2D" parent="ItemBody"]
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemBody/SectorDetector"]
-shape = SubResource("CircleShape2D_13nig")
 
 [node name="SleepTime" type="Timer" parent="ItemBody"]
 unique_name_in_owner = true
@@ -45,16 +33,30 @@ wait_time = 2.0
 one_shot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="ItemBody"]
-scale = Vector2(0.195, 0.195)
+scale = Vector2(0.16, 0.16)
 texture = ExtResource("2_wi08r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ItemBody"]
 shape = SubResource("CircleShape2D_rrmsc")
 debug_color = Color(0, 0.509804, 0.686275, 0.627451)
 
+[node name="PlanetDetector" type="Area2D" parent="ItemBody"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemBody/PlanetDetector"]
+shape = SubResource("CircleShape2D_1rul8")
+debug_color = Color(2.40654e-07, 0.643042, 0.307179, 0.42)
+
+[node name="SectorDetector" type="Area2D" parent="ItemBody"]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ItemBody/SectorDetector"]
+shape = SubResource("CircleShape2D_13nig")
+debug_color = Color(0.991528, 0, 0.264377, 0.42)
+
 [connection signal="body_entered" from="ItemBody" to="." method="_on_item_body_body_entered"]
 [connection signal="sleeping_state_changed" from="ItemBody" to="." method="_on_item_body_sleeping_state_changed"]
-[connection signal="body_entered" from="ItemBody/PlanetDetector" to="." method="_on_planet_detector_body_entered"]
+[connection signal="timeout" from="ItemBody/SleepTime" to="." method="_on_sleep_time_timeout"]
 [connection signal="body_exited" from="ItemBody/PlanetDetector" to="." method="_on_planet_detector_body_exited"]
 [connection signal="area_exited" from="ItemBody/SectorDetector" to="." method="_on_sector_detector_area_exited"]
-[connection signal="timeout" from="ItemBody/SleepTime" to="." method="_on_sleep_time_timeout"]

@@ -3,7 +3,6 @@ extends Node2D
 @export var vectorMultiplier:float = 1.0
 
 @onready var line_2d: = %Line2D as Line2D
-@onready var timer: = %Timer as Timer
 
 var vec_start: = Vector2.ZERO
 var vec_fin: = Vector2.ZERO
