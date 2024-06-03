@@ -3,6 +3,8 @@ class_name Player extends Node2D
 @export var jump_power:float = 10000.0
 @export var speed:float = 5000.0
 @export var bounce:float = 0.6
+@export var camera_rise:float = 150.0
+@export var look_rise:float = 150.0
 
 enum PlayerState {NONE, BALLISTIC, PLAYER}
 
@@ -40,7 +42,7 @@ func _process(delta:float):
 		current_state = next_state
 
 	process_state(current_state, delta)
-	
+
 #region Enter
 func enter_state(state:PlayerState):
 	print("enter_state:", state)
@@ -86,9 +88,9 @@ func process_balistic_state(delta:float):
 
 	if ballistic_state_over:
 		next_state = PlayerState.PLAYER
-		
+
 	character_body_2d.global_position = rigid_body_2d.global_position
-	
+
 
 func process_player_state(delta:float):
 
@@ -113,7 +115,7 @@ func process_player_state(delta:float):
 		line_2d.points[1] = Vector2.ZERO
 
 	dynamic_nodes_handle.global_position = character_body_2d.global_position
-	
+
 	var v:Vector2 = current_planet.global_position
 	v -= character_body_2d.global_position
 	v = v.normalized()
@@ -140,14 +142,8 @@ func process_player_state(delta:float):
 		character_body_2d.velocity = Vector2.ZERO
 		animated_sprite_2d.animation = "idle"
 
-	elif Input.is_action_pressed("player_down"):
-		print("player_down")
-
 	if Input.is_action_just_pressed("player_jump"):
-		if randi() % 2:
-			animated_sprite_2d.animation = "flip_back"
-		else:
-			animated_sprite_2d.animation = "flip_front"
+		animated_sprite_2d.animation = Global.player_jump_animations.pick_random()
 		animation_player.play("jump")
 
 	character_body_2d.move_and_slide()
@@ -209,11 +205,23 @@ func _on_timer_timeout():
 
 func _on_spawn_timer_timeout():
 	if aiming:
-		spawn_item(get_follow_position(), calc_velocity())
+		spawn_item(get_spawn_position(), calc_velocity())
 #endregion
 
 #region Helpers
 func get_follow_position():
+	match current_state:
+		PlayerState.BALLISTIC:
+			return rigid_body_2d.global_position
+		PlayerState.PLAYER:
+			var rise:float = camera_rise
+			if Input.is_action_pressed("player_up"):
+				rise += look_rise
+			var riseVector:Vector2 = -dynamic_nodes_handle.transform.y * rise
+			return character_body_2d.global_position + riseVector
+	return Vector2.ZERO
+
+func get_spawn_position():
 	match current_state:
 		PlayerState.BALLISTIC:
 			return rigid_body_2d.global_position
@@ -223,7 +231,7 @@ func get_follow_position():
 
 func get_follow_rotation():
 	return character_body_2d.global_rotation
-	
+
 func spawn_item(p:Vector2, v:Vector2):
 		var a:float = PI / 180.0
 		var spawnee = SPAWNEE.instantiate()

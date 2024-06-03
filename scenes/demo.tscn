@@ -14,39 +14,39 @@ radius = 10000.0
 script = ExtResource("1_g3g33")
 print_input = false
 
-[node name="SlingSpawner" parent="." instance=ExtResource("4_q44g3")]
-
-[node name="Planet" parent="." instance=ExtResource("1_5xw6d")]
-position = Vector2(573, 357)
-planet_radius = 200.0
-
-[node name="Planet2" parent="." instance=ExtResource("1_5xw6d")]
-position = Vector2(111, -50)
-
-[node name="Planet3" parent="." instance=ExtResource("1_5xw6d")]
-position = Vector2(73, 777)
-
-[node name="Planet4" parent="." instance=ExtResource("1_5xw6d")]
-position = Vector2(1864, 139)
-planet_radius = 250.0
-
-[node name="Planet5" parent="." instance=ExtResource("1_5xw6d")]
-position = Vector2(-893, 619)
-planet_radius = 200.0
-
-[node name="Planet6" parent="." instance=ExtResource("1_5xw6d")]
-position = Vector2(1146, -678)
-
-[node name="Planet7" parent="." instance=ExtResource("1_5xw6d")]
-position = Vector2(2507, 805)
-planet_radius = 150.0
-
-[node name="Planet8" parent="." instance=ExtResource("1_5xw6d")]
-position = Vector2(2500, -268)
-
-[node name="Planet9" parent="." instance=ExtResource("1_5xw6d")]
+[node name="Planet75" parent="." instance=ExtResource("1_5xw6d")]
 position = Vector2(1289, 1239)
-planet_radius = 75.0
+planet_radius = 75
+
+[node name="Planet100" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(311, -125)
+planet_radius = 100
+
+[node name="Planet125" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(61, 789)
+planet_radius = 125
+
+[node name="Planet150" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(1542, -692)
+planet_radius = 150
+
+[node name="Planet175" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(2974, 638)
+planet_radius = 175
+
+[node name="Planet200" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(573, 357)
+planet_radius = 200
+
+[node name="Planet225" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(-1132, 587)
+planet_radius = 225
+
+[node name="Planet250" parent="." instance=ExtResource("1_5xw6d")]
+position = Vector2(2024, 139)
+planet_radius = 250
+
+[node name="SlingSpawner" parent="." instance=ExtResource("4_q44g3")]
 
 [node name="Item2" parent="." instance=ExtResource("5_r6l22")]
 position = Vector2(587, 56)
@@ -60,7 +60,7 @@ initial_velocity = Vector2(-1000, 0)
 position = Vector2(583, -85)
 
 [node name="Player" parent="." instance=ExtResource("5_6xv1j")]
-position = Vector2(950, -208)
+position = Vector2(1267, 1899)
 
 [node name="Sector" type="Area2D" parent="."]
 collision_layer = 4
@@ -73,7 +73,6 @@ shape = SubResource("CircleShape2D_tocbc")
 [node name="DebugCamera" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
 position = Vector2(572, 328)
 ignore_rotation = false
-zoom = Vector2(2, 2)
 script = ExtResource("3_3v72u")
 follow_mode = true
 follow = NodePath("../Player")

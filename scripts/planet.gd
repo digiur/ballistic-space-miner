@@ -1,7 +1,7 @@
 @tool
 class_name Planet extends Node2D
 
-@export var planet_radius:float = 100.0:
+@export var planet_radius:int = 100:
 	set(value):
 		print("planet_radius set")
 		planet_radius = value
@@ -23,7 +23,8 @@ class_name Planet extends Node2D
 @onready var gravity_shape: = %GravityShape as CollisionShape2D
 @onready var planet_body: = %PlanetBody as StaticBody2D
 @onready var planet_shape: = %PlanetShape as CollisionShape2D
-@onready var sprite_2d: = %Sprite2D as Sprite2D
+#@onready var sprite_2d: = %Sprite2D as Sprite2D
+@onready var animated_sprite_2d: = %AnimatedSprite2D as AnimatedSprite2D
 
 var update_child_properties:bool = true
 
@@ -48,11 +49,16 @@ func calculate_child_properties():
 	gravity_shape.shape.radius = gravity_radius
 
 	if not Engine.is_editor_hint():
-		var xScale:float = planet_radius * 2.0 / sprite_2d.texture.get_height()
-		var yScale:float = planet_radius * 2.0 / sprite_2d.texture.get_width()
+		var animationName:String = str(planet_radius)
+		animated_sprite_2d.play(animationName)
+		
+		var texture:Texture2D = animated_sprite_2d.sprite_frames.get_frame_texture(animationName, 0)
+		
+		var xScale:float = planet_radius * 2.0 / texture.get_width()
+		var yScale:float = planet_radius * 2.0 / texture.get_height()
 #
-		sprite_2d.scale = Vector2(xScale, yScale)
-		sprite_2d.visible = true
+		animated_sprite_2d.scale = Vector2(xScale, yScale)
+		animated_sprite_2d.visible = true
 
 	update_child_properties = false
 	print("planet child properties calculated")
