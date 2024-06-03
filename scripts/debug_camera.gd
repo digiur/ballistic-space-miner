@@ -4,6 +4,10 @@ class_name DebugCamera extends Camera2D
 @export var follow_mode:bool = false
 @export var follow:Player = null
 
+func _ready():
+	global_position = follow.get_follow_position()
+	global_rotation = follow.get_follow_rotation()
+
 func _process(delta:float):
 	if Input.is_action_just_pressed("camera_out"):
 		zoom *= 1.5 / 2.0

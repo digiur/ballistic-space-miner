@@ -53,12 +53,15 @@ func enter_state(state:PlayerState):
 func enter_balistic_state(state:PlayerState):
 	print("enter_balistic_state")
 	rigid_body_2d.process_mode = Node.PROCESS_MODE_PAUSABLE
+	rigid_body_2d.visible = true
 	rigid_body_2d.set_ballistic_params(
 		character_body_2d.global_position,
 		next_ballistic_velocity
 	)
 
 func enter_player_state(state:PlayerState):
+	character_body_2d.process_mode = Node.PROCESS_MODE_PAUSABLE
+	character_body_2d.visible = true
 	print("enter_player_state")
 #endregion
 
@@ -76,10 +79,10 @@ func process_balistic_state(delta:float):
 
 	if current_planet == null:
 		var v:Vector2 = rigid_body_2d.linear_velocity
-		v += animated_sprite_2d.global_position
-		animated_sprite_2d.look_at(v)
+		v += dynamic_nodes_handle.global_position
+		dynamic_nodes_handle.look_at(v)
 	elif not rigid_body_2d.sleeping:
-		animated_sprite_2d.rotate(rigid_body_2d.angular_velocity * delta)
+		dynamic_nodes_handle.rotate(rigid_body_2d.angular_velocity * delta)
 
 	if ballistic_state_over:
 		next_state = PlayerState.PLAYER
@@ -116,32 +119,35 @@ func process_player_state(delta:float):
 	v = v.normalized()
 
 	var target = character_body_2d.global_position + v.rotated(-PI/2.0)
-	animated_sprite_2d.look_at(target)
+	dynamic_nodes_handle.look_at(target)
 	character_body_2d.look_at(target)
 
 	if Input.is_action_pressed("player_right"):
 		var forward:Vector2 = character_body_2d.transform.x * speed * delta
 		character_body_2d.velocity = forward
-		animated_sprite_2d.animation = "move"
-		animated_sprite_2d.flip_h = false
+		if not animation_player.is_playing():
+			animated_sprite_2d.animation = "move"
+			animated_sprite_2d.flip_h = false
 
 	elif Input.is_action_pressed("player_left"):
 		var forward:Vector2 = -character_body_2d.transform.x * speed * delta
 		character_body_2d.velocity = forward
-		animated_sprite_2d.animation = "move"
-		animated_sprite_2d.flip_h = true
+		if not animation_player.is_playing():
+			animated_sprite_2d.animation = "move"
+			animated_sprite_2d.flip_h = true
 
-	else:
+	elif not animation_player.is_playing():
 		character_body_2d.velocity = Vector2.ZERO
 		animated_sprite_2d.animation = "idle"
-
-	if Input.is_action_pressed("player_up"):
-		print("player_up")
 
 	elif Input.is_action_pressed("player_down"):
 		print("player_down")
 
 	if Input.is_action_just_pressed("player_jump"):
+		if randi() % 2:
+			animated_sprite_2d.animation = "flip_back"
+		else:
+			animated_sprite_2d.animation = "flip_front"
 		animation_player.play("jump")
 
 	character_body_2d.move_and_slide()
@@ -166,10 +172,13 @@ func exit_state(state:PlayerState):
 func exit_balistic_state(state:PlayerState):
 	print("exit_balistic_state")
 	rigid_body_2d.process_mode = Node.PROCESS_MODE_DISABLED
+	rigid_body_2d.visible = false
 	rigid_body_2d.physics_material_override.bounce = bounce
 	ballistic_state_over = false
 
 func exit_player_state(state:PlayerState):
+	character_body_2d.process_mode = Node.PROCESS_MODE_DISABLED
+	character_body_2d.visible = false
 	print("exit_player_state")
 #endregion
 

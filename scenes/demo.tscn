@@ -14,14 +14,6 @@ radius = 10000.0
 script = ExtResource("1_g3g33")
 print_input = false
 
-[node name="DebugCamera" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
-position = Vector2(572, 328)
-ignore_rotation = false
-zoom = Vector2(2, 2)
-script = ExtResource("3_3v72u")
-follow_mode = true
-follow = NodePath("../Player")
-
 [node name="SlingSpawner" parent="." instance=ExtResource("4_q44g3")]
 
 [node name="Planet" parent="." instance=ExtResource("1_5xw6d")]
@@ -77,3 +69,11 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sector"]
 position = Vector2(1078, 561)
 shape = SubResource("CircleShape2D_tocbc")
+
+[node name="DebugCamera" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
+position = Vector2(572, 328)
+ignore_rotation = false
+zoom = Vector2(2, 2)
+script = ExtResource("3_3v72u")
+follow_mode = true
+follow = NodePath("../Player")
