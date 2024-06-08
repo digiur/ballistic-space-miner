@@ -2,8 +2,6 @@ extends Node2D
 
 @export var vectorMultiplier:float = 1.0
 
-@onready var line_2d: = %Line2D as Line2D
-
 var vec_start: = Vector2.ZERO
 var vec_fin: = Vector2.ZERO
 var clicking: = false
@@ -22,19 +20,20 @@ func _process(_delta : float):
 		clicking = true
 		vec_start = get_global_mouse_position()
 		vec_fin = vec_start
-		line_2d.points[0] = vec_start
 
 	if Input.is_action_pressed("click"):
 		clicking = true
 		vec_fin = get_global_mouse_position()
-		line_2d.points[1] = vec_fin
 
 	if Input.is_action_just_released("click"):
 		clicking = false
 		positions.append(calc_position())
 		velocities.append(calc_velocity())
-		line_2d.points[0] = Vector2.ZERO
-		line_2d.points[1] = Vector2.ZERO
+
+		vec_start = Vector2.ZERO
+		vec_fin = Vector2.ZERO
+
+	queue_redraw()
 
 func _on_timer_timeout():
 	if clicking:
@@ -50,6 +49,12 @@ func spawn_item(p:Vector2, v:Vector2):
 		spawnee.initial_velocity = v
 		spawnee.position = p
 		add_child(spawnee)
+
+func _draw():
+	draw_line(vec_start, vec_fin, Color.FOREST_GREEN)
+	
+	for i:int in positions.size():
+		draw_line(positions[i], positions[i] - velocities[i], Color.FOREST_GREEN)
 
 func calc_velocity() -> Vector2:
 	return (vec_start - vec_fin) * vectorMultiplier

@@ -57423,7 +57423,7 @@ gravity = 1.7546e+09
 [node name="GravityShape" type="CollisionShape2D" parent="GravityArea"]
 unique_name_in_owner = true
 shape = SubResource("CircleShape2D_11a1y")
-debug_color = Color(0.894118, 0, 0.788235, 0.0392157)
+debug_color = Color(0, 1, 0, 0.00784314)
 
 [node name="PlanetBody" type="StaticBody2D" parent="."]
 unique_name_in_owner = true
@@ -57431,8 +57431,9 @@ collision_mask = 12
 
 [node name="PlanetShape" type="CollisionShape2D" parent="PlanetBody"]
 unique_name_in_owner = true
+visible = false
 shape = SubResource("CircleShape2D_hq0ok")
-debug_color = Color(0.282232, 0.631038, 9.62615e-07, 0.42)
+debug_color = Color(0, 1, 0, 0.0196078)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true

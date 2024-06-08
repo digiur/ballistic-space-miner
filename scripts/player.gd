@@ -1,12 +1,10 @@
 class_name Player extends Node2D
 
-@export var jump_power:float = 10000.0
-@export var speed:float = 5000.0
+@export var walk_speed:float = 3000.0
+@export var jump_speed:float = 4000.0
 @export var bounce:float = 0.6
 @export var camera_rise:float = 150.0
 @export var look_rise:float = 150.0
-
-enum PlayerState {NONE, BALLISTIC, PLAYER}
 
 @onready var dynamic_nodes_handle: = %DynamicNodesHandle as Node2D
 @onready var rigid_body_2d: = %RigidBody2D as RigidBody2D
@@ -15,6 +13,8 @@ enum PlayerState {NONE, BALLISTIC, PLAYER}
 @onready var timer: = %BallisticTimer as Timer
 @onready var animation_player: = $AnimationPlayer as AnimationPlayer
 @onready var line_2d = %Line2D as Line2D
+
+enum PlayerState {NONE, BALLISTIC, PLAYER}
 
 var prev_state:PlayerState = PlayerState.NONE
 var current_state:PlayerState = PlayerState.NONE
@@ -30,6 +30,8 @@ var vec_start: = Vector2.ZERO
 var vec_fin: = Vector2.ZERO
 const SPAWNEE:PackedScene = preload("res://scenes/item.tscn")
 @export var vectorMultiplier:float = 1.0
+
+var speed:float = 0.0
 
 func _ready():
 	line_2d.global_position = Vector2.ZERO
@@ -91,7 +93,6 @@ func process_balistic_state(delta:float):
 
 	character_body_2d.global_position = rigid_body_2d.global_position
 
-
 func process_player_state(delta:float):
 
 	if Input.is_action_just_pressed("right_click"):
@@ -114,8 +115,6 @@ func process_player_state(delta:float):
 		line_2d.points[0] = Vector2.ZERO
 		line_2d.points[1] = Vector2.ZERO
 
-	dynamic_nodes_handle.global_position = character_body_2d.global_position
-
 	var v:Vector2 = current_planet.global_position
 	v -= character_body_2d.global_position
 	v = v.normalized()
@@ -124,27 +123,40 @@ func process_player_state(delta:float):
 	dynamic_nodes_handle.look_at(target)
 	character_body_2d.look_at(target)
 
-	if Input.is_action_pressed("player_right"):
-		var forward:Vector2 = character_body_2d.transform.x * speed * delta
-		character_body_2d.velocity = forward
-		if not animation_player.is_playing():
-			animated_sprite_2d.animation = "move"
-			animated_sprite_2d.flip_h = false
-
-	elif Input.is_action_pressed("player_left"):
-		var forward:Vector2 = -character_body_2d.transform.x * speed * delta
-		character_body_2d.velocity = forward
-		if not animation_player.is_playing():
-			animated_sprite_2d.animation = "move"
-			animated_sprite_2d.flip_h = true
-
-	elif not animation_player.is_playing():
-		character_body_2d.velocity = Vector2.ZERO
-		animated_sprite_2d.animation = "idle"
-
 	if Input.is_action_just_pressed("player_jump"):
 		animated_sprite_2d.animation = Global.player_jump_animations.pick_random()
 		animation_player.play("jump")
+
+	var target_speed:float = 0.0
+	if Input.is_action_pressed("player_right"):
+		animated_sprite_2d.flip_h = false
+		if animation_player.is_playing():
+			target_speed = jump_speed
+		else:
+			target_speed = walk_speed
+			animated_sprite_2d.animation = "move"
+
+	elif Input.is_action_pressed("player_left"):
+		animated_sprite_2d.flip_h = true
+		if animation_player.is_playing():
+			target_speed = -jump_speed
+		else:
+			target_speed = -walk_speed
+			animated_sprite_2d.animation = "move"
+
+	elif not animation_player.is_playing():
+		target_speed = 0
+		animated_sprite_2d.animation = "idle"
+
+	if signf(target_speed) == 0 or animation_player.is_playing():
+		speed = move_toward(speed, target_speed, walk_speed * delta)
+	elif signf (speed) + signf(target_speed) == 0:
+		speed = move_toward(speed, target_speed, walk_speed * delta * 1.5)
+	else:
+		speed = target_speed
+
+	var forward:Vector2 = character_body_2d.transform.x * speed * delta
+	character_body_2d.velocity = forward
 
 	character_body_2d.move_and_slide()
 
@@ -154,6 +166,8 @@ func process_player_state(delta:float):
 	) * delta
 
 	character_body_2d.move_and_slide()
+
+	dynamic_nodes_handle.global_position = character_body_2d.global_position
 #endregion
 
 #region Exit

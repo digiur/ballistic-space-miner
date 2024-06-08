@@ -45,8 +45,6 @@ planet_radius = 225
 position = Vector2(2024, 139)
 planet_radius = 250
 
-[node name="SlingSpawner" parent="." instance=ExtResource("4_q44g3")]
-
 [node name="Item2" parent="." instance=ExtResource("5_r6l22")]
 position = Vector2(587, 56)
 initial_velocity = Vector2(1000, 0)
@@ -62,15 +60,23 @@ position = Vector2(583, -85)
 position = Vector2(1267, 1899)
 
 [node name="Sector" type="Area2D" parent="."]
-collision_layer = 4
+collision_layer = 16
 collision_mask = 0
+gravity_space_override = 1
+gravity_point = true
+gravity_point_center = Vector2(0, 0)
+gravity_direction = Vector2(0, 0)
+gravity = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sector"]
 position = Vector2(1078, 561)
 shape = SubResource("CircleShape2D_tocbc")
+debug_color = Color(1, 1, 1, 0.0588235)
 
 [node name="FollowCamera" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
 ignore_rotation = false
 script = ExtResource("6_5ylwj")
 follow_mode = true
 follow = NodePath("../Player")
+
+[node name="SlingSpawner2" parent="." instance=ExtResource("4_q44g3")]

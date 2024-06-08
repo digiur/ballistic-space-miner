@@ -381,7 +381,7 @@ script = ExtResource("2_eam0r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 shape = SubResource("CircleShape2D_e0180")
-debug_color = Color(0.602016, 0.367839, 1, 0.42)
+debug_color = Color(0, 0.501961, 0, 0.0980392)
 
 [node name="BallisticTimer" type="Timer" parent="RigidBody2D"]
 unique_name_in_owner = true
@@ -394,6 +394,7 @@ motion_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CircleShape2D_t417q")
+debug_color = Color(0, 0.501961, 0, 0.0980392)
 
 [node name="DynamicNodesHandle" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -410,14 +411,14 @@ offset = Vector2(0, -4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DynamicNodesHandle/AnimatedSprite2D/Area2D"]
 shape = SubResource("CircleShape2D_sgat1")
-debug_color = Color(0.870636, 0.340677, 0.216136, 0.42)
+debug_color = Color(0, 0.501961, 0, 0.0980392)
 
 [node name="Planet Detector" type="Area2D" parent="DynamicNodesHandle"]
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DynamicNodesHandle/Planet Detector"]
 shape = SubResource("CircleShape2D_4emy8")
-debug_color = Color(0.380452, 0.613259, 0, 0.42)
+debug_color = Color(0, 0.501961, 0, 0.0980392)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
