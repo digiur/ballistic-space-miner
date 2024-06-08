@@ -57408,7 +57408,6 @@ animations = [{
 
 [node name="Planet" type="Node2D"]
 script = ExtResource("1_dlfb6")
-planet_radius = 100.0
 
 [node name="GravityArea" type="Area2D" parent="."]
 unique_name_in_owner = true

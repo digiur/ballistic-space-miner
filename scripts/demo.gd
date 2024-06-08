@@ -6,7 +6,12 @@ const Style:Array[String] = ["Curry", "Sheet Pan", "Taco", "Sandwich/Wrap", "Sou
 
 @export var print_input:bool = true
 
+var voice_id = DisplayServer.tts_get_voices_for_language("en")[0]
+
 func _input(event:InputEvent):
+	if event.is_action_pressed("speak"):
+		speak()
+
 	if event.is_action_pressed("get_dinner_idea"):
 		roll_food()
 
@@ -18,3 +23,6 @@ func roll_food():
 	print("Veg: ", Veg.pick_random())
 	print("Protein: ", Protein.pick_random())
 	print("Style: ", Style.pick_random())
+
+func speak():
+	DisplayServer.tts_speak("Hello, world!", voice_id)

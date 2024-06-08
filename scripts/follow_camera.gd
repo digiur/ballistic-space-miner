@@ -2,8 +2,13 @@ class_name FollowCamera extends Camera2D
 
 @export var speed:float = 10.0
 @export var follow_mode:bool = false
+@export var follow:Player = null
 
-func _process(_delta:float):
+func _ready():
+	global_position = follow.get_follow_position()
+	global_rotation = follow.get_follow_rotation()
+
+func _process(delta:float):
 	if Input.is_action_just_pressed("camera_out"):
 		zoom *= 1.5 / 2.0
 
@@ -22,3 +27,6 @@ func _process(_delta:float):
 
 		if Input.is_action_pressed("camera_down"):
 			position += Vector2.DOWN * (1 / zoom.y) * speed
+	else:
+		global_position = lerp(global_position, follow.get_follow_position(), speed * delta)
+		global_rotation = lerp_angle(global_rotation, follow.get_follow_rotation(), speed / PI * delta)

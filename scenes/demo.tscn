@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://bhjs65t6px30g" path="res://scenes/planet.tscn" id="1_5xw6d"]
 [ext_resource type="Script" path="res://scripts/demo.gd" id="1_g3g33"]
-[ext_resource type="Script" path="res://scripts/debug_camera.gd" id="3_3v72u"]
 [ext_resource type="PackedScene" uid="uid://hlrljg8iawgt" path="res://scenes/sling_spawner.tscn" id="4_q44g3"]
 [ext_resource type="PackedScene" uid="uid://btwmqousqss63" path="res://scenes/player.tscn" id="5_6xv1j"]
 [ext_resource type="PackedScene" uid="uid://dopu3wr2g8pa7" path="res://scenes/item.tscn" id="5_r6l22"]
+[ext_resource type="Script" path="res://scripts/follow_camera.gd" id="6_5ylwj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tocbc"]
 radius = 10000.0
@@ -20,7 +20,6 @@ planet_radius = 75
 
 [node name="Planet100" parent="." instance=ExtResource("1_5xw6d")]
 position = Vector2(311, -125)
-planet_radius = 100
 
 [node name="Planet125" parent="." instance=ExtResource("1_5xw6d")]
 position = Vector2(61, 789)
@@ -70,9 +69,8 @@ collision_mask = 0
 position = Vector2(1078, 561)
 shape = SubResource("CircleShape2D_tocbc")
 
-[node name="DebugCamera" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
-position = Vector2(572, 328)
+[node name="FollowCamera" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
 ignore_rotation = false
-script = ExtResource("3_3v72u")
+script = ExtResource("6_5ylwj")
 follow_mode = true
 follow = NodePath("../Player")
