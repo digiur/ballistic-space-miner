@@ -75,6 +75,7 @@ debug_color = Color(1, 1, 1, 0.0588235)
 
 [node name="FollowCamera" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
 ignore_rotation = false
+position_smoothing_speed = 10.0
 script = ExtResource("6_5ylwj")
 follow_mode = true
 follow = NodePath("../Player")
