@@ -67,14 +67,13 @@ func _ready():
 		tts_index += 1
 
 func speak(string:String, id:int):
-	if tts_voice_ids.size() == 0:
-		print("no voices")
-		return
-	var new_v_id_index = randi() % tts_voice_ids.size()
-	while new_v_id_index == tts_voice_ids_index:
-		new_v_id_index = randi() % tts_voice_ids.size()
-	tts_voice_ids_index = new_v_id_index
-
+	#if tts_voice_ids.size() == 0:
+		#print("no voices")
+		#return
+	#var new_v_id_index = randi() % tts_voice_ids.size()
+	#while new_v_id_index == tts_voice_ids_index:
+		#new_v_id_index = randi() % tts_voice_ids.size()
+	#tts_voice_ids_index = new_v_id_index
 	DisplayServer.tts_speak(
 		string,
 		tts_voice_ids[tts_voice_ids_index],
@@ -83,14 +82,17 @@ func speak(string:String, id:int):
 		1.0,
 		id
 	)
-
-func speak_callback(i:int):
+	
+func float_text(t:String):
 	var floating_text = FLOATING_TEXT.instantiate()
-	floating_text.my_text = tts_strings[i].strip_edges()
+	floating_text.my_text = t.strip_edges()
 	floating_text.position = dynamic_nodes_handle.position
 	floating_text.position += character_body_2d.transform.x * -400
 	floating_text.rotation = dynamic_nodes_handle.rotation
 	add_child(floating_text)
+
+func speak_callback(i:int):
+	float_text(tts_strings[i])
 	print(tts_strings[i])
 	pass
 
@@ -180,19 +182,20 @@ func process_player_state(delta:float):
 		vec_fin = Vector2.ZERO
 
 	if Input.is_action_just_pressed("show_voices"):
-		var tts_voice_ids = DisplayServer.tts_get_voices_for_language('en')
-		
-		var floating_text = FLOATING_TEXT.instantiate()
+		float_text(tts_voice_ids[tts_voice_ids_index])
+		#var tts_voice_ids = DisplayServer.tts_get_voices_for_language('en')
+		#
+		#var floating_text = FLOATING_TEXT.instantiate()
 
-		for voice_id in tts_voice_ids:
-			floating_text.my_text += voice_id + " | "
+		#for voice_id in tts_voice_ids:
+			#floating_text.my_text += voice_id + " | "
 
-		floating_text.my_text = "Voices: | " + floating_text.my_text
+		#floating_text.my_text = "Voices: | " + floating_text.my_text
 
-		floating_text.position = dynamic_nodes_handle.position
-		floating_text.position += character_body_2d.transform.x * -400
-		floating_text.rotation = dynamic_nodes_handle.rotation
-		add_child(floating_text)
+		#floating_text.position = dynamic_nodes_handle.position
+		#floating_text.position += character_body_2d.transform.x * -400
+		#floating_text.rotation = dynamic_nodes_handle.rotation
+		#add_child(floating_text)
 
 	var v:Vector2 = current_planet.global_position
 	v -= character_body_2d.global_position
