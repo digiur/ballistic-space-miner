@@ -68,6 +68,7 @@ func _ready():
 
 func speak(string:String, id:int):
 	if voice_ids.size() == 0:
+		print("no voices")
 		return
 	var new_v_id_index = randi() % voice_ids.size()
 	while new_v_id_index == voice_ids_index:
@@ -106,6 +107,7 @@ func _process(delta:float):
 	
 func _draw():
 	draw_line(character_body_2d.position, character_body_2d.position + (vec_start - vec_fin), Color.FOREST_GREEN)
+	# Should be using draw_multiline() here
 
 #region Enter
 func enter_state(state:PlayerState):
@@ -178,13 +180,13 @@ func process_player_state(delta:float):
 		vec_fin = Vector2.ZERO
 
 	if Input.is_action_just_pressed("show_voices"):
-		var voice_ids = DisplayServer.tts_get_voices()
+		var voice_ids = DisplayServer.tts_get_voices_for_language('en')
 		
 		var floating_text = FLOATING_TEXT.instantiate()
 
 		for voice_id in voice_ids:
 			if floating_text.my_text != "":
-				floating_text.my_text += " | " + voice_id.name
+				floating_text.my_text += " | "
 			floating_text.my_text += voice_id.name
 
 		floating_text.position = dynamic_nodes_handle.position
