@@ -90,7 +90,7 @@ func _ready():
 func speak(string:String, id:int):
 	DisplayServer.tts_speak(
 		string,
-		tts_voices[tts_voice_ids_index].id,
+		"",
 		50,
 		1.0,
 		1.0,
