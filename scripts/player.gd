@@ -67,6 +67,8 @@ func _ready():
 		tts_index += 1
 
 func speak(string:String, id:int):
+	if voice_ids.size() == 0:
+		return
 	var new_v_id_index = randi() % voice_ids.size()
 	while new_v_id_index == voice_ids_index:
 		new_v_id_index = randi() % voice_ids.size()
