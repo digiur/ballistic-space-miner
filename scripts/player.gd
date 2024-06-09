@@ -55,18 +55,19 @@ var tts_voice_ids_index:int = 0
 
 const FLOATING_TEXT:PackedScene = preload("res://scenes/floating_text.tscn")
 
-#func _ready():
-	#DisplayServer.tts_set_utterance_callback(
-		#DisplayServer.TTS_UTTERANCE_STARTED,
-		#Callable(self, "speak_callback")
-	#)
-#
-	#await get_tree().create_timer(8.25).timeout
-#
-	#tts_voices = DisplayServer.tts_get_voices()
-	#float_text("tts_voices.size(): " + str(tts_voices.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
-#
-	#await get_tree().create_timer(0.5).timeout
+func _ready():
+	DisplayServer.tts_set_utterance_callback(
+		DisplayServer.TTS_UTTERANCE_STARTED,
+		Callable(self, "speak_callback")
+	)
+
+	await get_tree().create_timer(8.25).timeout
+
+	tts_voices = DisplayServer.tts_get_voices()
+	float_text("tts_voices.size(): " + str(tts_voices.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+
+	await get_tree().create_timer(0.5).timeout
+	float_text("_ready done", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 	#for voice in tts_voices:
 		#float_text("voice:name:" + voice.name + " id:" + voice.id + " lang:" + voice.language, dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 		#await get_tree().create_timer(0.5).timeout
@@ -108,7 +109,8 @@ func float_text(text:String, transform:Transform2D, offset:Vector2):
 	floating_text.position += offset
 	add_child(floating_text)
 
-func speak_callback(i:int):
+func speak_callback(i:int): 
+	float_text("callback i: " + str(i), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.y * -50)
 	float_text(tts_strings[i], dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * -600)
 	print(tts_strings[i])
 	pass
