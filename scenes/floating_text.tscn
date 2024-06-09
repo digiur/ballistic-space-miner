@@ -1,10 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://7x80gyuj8wsa"]
+[gd_scene load_steps=10 format=3 uid="uid://7x80gyuj8wsa"]
 
 [ext_resource type="Script" path="res://scripts/floating_text.gd" id="1_cy5bc"]
 
 [sub_resource type="Animation" id="Animation_amfjq"]
 resource_name = "float"
 length = 10.0
+step = 0.01
+
+[sub_resource type="Animation" id="Animation_r8ugk"]
+resource_name = "raise"
+length = 10.0
+step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -17,26 +23,117 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, -400)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Label:theme_override_colors/font_color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
+
+[sub_resource type="Animation" id="Animation_i3a2l"]
+resource_name = "lower"
+length = 10.0
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
 "times": PackedFloat32Array(0, 10),
-"transitions": PackedFloat32Array(2, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0, 0.501961, 0, 1), Color(0, 0.501961, 0, 0)]
+"values": [Vector2(0, 0), Vector2(0, 200)]
+}
+
+[sub_resource type="Animation" id="Animation_x04rx"]
+resource_name = "green"
+length = 10.0
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.02, 10),
+"transitions": PackedFloat32Array(1, 1, 0.5, 1),
+"update": 0,
+"values": [Color(0.752941, 1, 0.752941, 1), Color(0, 1, 0, 1), Color(0, 0.501961, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ctejv"]
+resource_name = "red"
+length = 10.0
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.02, 10),
+"transitions": PackedFloat32Array(1, 1, 0.5, 1),
+"update": 0,
+"values": [Color(1, 0.752941, 0.752941, 1), Color(1, 0, 0, 1), Color(0.501961, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_iv6h1"]
+resource_name = "blue"
+length = 10.0
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.02, 10),
+"transitions": PackedFloat32Array(1, 1, 0.5, 1),
+"update": 0,
+"values": [Color(0.752941, 0.752941, 1, 1), Color(0, 0, 1, 1), Color(0, 0, 0.501961, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_6v0bt"]
+resource_name = "yellow"
+length = 10.0
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:theme_override_colors/font_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.02, 10),
+"transitions": PackedFloat32Array(1, 1, 0.5, 1),
+"update": 0,
+"values": [Color(1, 1, 0.752941, 1), Color(1, 1, 0, 1), Color(0.580392, 0.501961, 0, 1), Color(0, 0, 0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ujy8i"]
 _data = {
-"float": SubResource("Animation_amfjq")
+"blue": SubResource("Animation_iv6h1"),
+"float": SubResource("Animation_amfjq"),
+"green": SubResource("Animation_x04rx"),
+"lower": SubResource("Animation_i3a2l"),
+"raise": SubResource("Animation_r8ugk"),
+"red": SubResource("Animation_ctejv"),
+"yellow": SubResource("Animation_6v0bt")
 }
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_cy5bc")
+
+[node name="PositionAnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_ujy8i")
+}
+
+[node name="ColorAnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_ujy8i")
+}
 
 [node name="Label" type="Label" parent="."]
 unique_name_in_owner = true
@@ -44,11 +141,5 @@ z_index = -1
 z_as_relative = false
 offset_right = 80.0
 offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 0.752941, 1)
 text = "Label Text"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-unique_name_in_owner = true
-libraries = {
-"": SubResource("AnimationLibrary_ujy8i")
-}

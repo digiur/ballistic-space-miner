@@ -30,7 +30,7 @@ var vec_fin: = Vector2.ZERO
 const SPAWNEE:PackedScene = preload("res://scenes/item.tscn")
 @export var vectorMultiplier:float = 1.0
 
-var speed:float = 0.0
+var character_speed:float = 0.0
 
 var tts_string:String = "Welcome. This is the beginning of a journey. through the outer reaches of the galaxy. The cosmos can be unforgiving. but with the right skills. survival and success are within reach. Today's task is simple yet crucial. mastering the art of navigating through gravity wells. and launching resources between planets.
 
@@ -64,40 +64,50 @@ func _ready():
 	await get_tree().create_timer(8.25).timeout
 
 	while tts_voices.size() == 0:
-		float_text("ERROR: No Voices Available. Retry in 1s", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+		float_text("ERROR: No Voices Available. Retry in 1s",
+			dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100, 2.0, "lower")
 		await get_tree().create_timer(1).timeout
 		
 		tts_voices = DisplayServer.tts_get_voices()
 
-	float_text("tts_voices.size(): " + str(tts_voices.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+	float_text("bestow " + str(tts_voices.size()) + " voices:",
+		dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100, 2.0, "lower")
 
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1.5).timeout
 	
 	for voice in tts_voices:
-		float_text("voice:name:" + voice.name + " id:" + voice.id + " lang:" + voice.language, dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+		float_text("voice:" + voice.name + " id:" + voice.id + " lang:" + voice.language,
+			dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100, 2.0, "lower")
 		await get_tree().create_timer(0.5).timeout
 
 	tts_strings = tts_string.split(".")
 	var tts_index = 0
 
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(2).timeout
 	while tts_index < tts_strings.size():
 
 		var new_v_id_index = randi() % tts_voices.size()
 		while new_v_id_index == tts_voice_ids_index:
 			new_v_id_index = randi() % tts_voices.size()
+			
+		const move_options:Array[String] = ["float", "lower"]
+		const color_options:Array[String] = ["green", "yellow", "green", "yellow", "red"]
 
 		float_text(
-			"queue voice line: v_id: " + str(new_v_id_index) + " | v: " + tts_voices[tts_voice_ids_index].id + " | str_id: " + str(tts_index) + " | str: " + tts_strings[tts_index].strip_edges(),
+			"make thy will be known: v_id: " + str(new_v_id_index) + " | str_id: " + str(tts_index) + " | str: " + tts_strings[tts_index].strip_edges() + " | v: " + tts_voices[tts_voice_ids_index].id,
 			dynamic_nodes_handle.transform,
-			dynamic_nodes_handle.transform.x * 100
+			(dynamic_nodes_handle.transform.x * (100 + (randi() % 20) - 10)) + (dynamic_nodes_handle.transform.y * ((randi() % 10) - 5)),
+			2.0,
+			move_options.pick_random(),
+			color_options.pick_random()
 		)
 		speak(tts_strings[tts_index], tts_index)
 		tts_voice_ids_index = new_v_id_index
 		tts_index += 1
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(0.4).timeout
 
-	float_text("_ready done", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+	float_text("_ready done",
+		dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100, 0.5)
 
 func speak(string:String, index:int):
 	DisplayServer.tts_speak(
@@ -109,16 +119,20 @@ func speak(string:String, index:int):
 		index
 	)
 	
-func float_text(text:String, transform:Transform2D, offset:Vector2):
+func float_text(text:String, transform:Transform2D, offset:Vector2, speed:float = 1.0, float_mode:String = "float", color_mode:String = "green"):
 	var floating_text = FLOATING_TEXT.instantiate()
 	floating_text.my_text = text.strip_edges()
 	floating_text.global_transform = transform
 	floating_text.position += offset
+	floating_text.animation_speed = speed
+	floating_text.float_mode = float_mode
+	floating_text.color_mode = color_mode
 	add_child(floating_text)
 
 func speak_callback(i:int): 
-	float_text("callback i: " + str(i), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.y * 50)
-	float_text(tts_strings[i], dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * -400)
+	float_text("callback i: " + str(i), dynamic_nodes_handle.transform,
+		dynamic_nodes_handle.transform.x * -150 + dynamic_nodes_handle.transform.y * -25, 15, "float", "yellow")
+	float_text(tts_strings[i], dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * -400, 0.5, "raise")
 	print(tts_strings[i])
 	pass
 
@@ -242,13 +256,13 @@ func process_player_state(delta:float):
 			animated_sprite_2d.animation = "idle"
 
 	if signf(target_speed) == 0 or animation_player.is_playing():
-		speed = move_toward(speed, target_speed, walk_speed * delta * 1.25) # get these values from the planet
-	elif signf (speed) + signf(target_speed) == 0:
-		speed = move_toward(speed, target_speed, walk_speed * delta * 1.5)
+		character_speed = move_toward(character_speed, target_speed, walk_speed * delta * 1.25) # get these values from the planet
+	elif signf (character_speed) + signf(target_speed) == 0:
+		character_speed = move_toward(character_speed, target_speed, walk_speed * delta * 1.5)
 	else:
-		speed = move_toward(speed, target_speed, walk_speed * delta * 5.0)
+		character_speed = move_toward(character_speed, target_speed, walk_speed * delta * 5.0)
 
-	var forward:Vector2 = character_body_2d.transform.x * speed * delta
+	var forward:Vector2 = character_body_2d.transform.x * character_speed * delta
 	character_body_2d.velocity = forward
 
 	character_body_2d.move_and_slide()

@@ -25,7 +25,7 @@ func _draw():
 func _ready():
 	item_body.linear_velocity = initial_velocity
 
-func _physics_process(delta:float):
+func _process(delta:float):
 	lifetime += delta
 
 	if planetside:
