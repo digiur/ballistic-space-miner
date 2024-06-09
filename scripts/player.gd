@@ -64,7 +64,7 @@ func _ready():
 	await get_tree().create_timer(8.25).timeout
 
 	while tts_voices.size() == 0:
-		float_text("ERROR: No Voices Available. Retry in 1", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+		float_text("ERROR: No Voices Available. Retry in 1s", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 		await get_tree().create_timer(1).timeout
 		
 		tts_voices = DisplayServer.tts_get_voices()
