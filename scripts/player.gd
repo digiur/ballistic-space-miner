@@ -50,8 +50,8 @@ Excellent work. These are the first steps in a journey that leads across the sta
 
 var tts_strings:PackedStringArray
 
-var voice_ids = DisplayServer.tts_get_voices_for_language('en')
-var voice_ids_index:int = 0
+var tts_voice_ids = DisplayServer.tts_get_voices_for_language('en')
+var tts_voice_ids_index:int = 0
 
 const FLOATING_TEXT:PackedScene = preload("res://scenes/floating_text.tscn")
 
@@ -67,17 +67,17 @@ func _ready():
 		tts_index += 1
 
 func speak(string:String, id:int):
-	if voice_ids.size() == 0:
+	if tts_voice_ids.size() == 0:
 		print("no voices")
 		return
-	var new_v_id_index = randi() % voice_ids.size()
-	while new_v_id_index == voice_ids_index:
-		new_v_id_index = randi() % voice_ids.size()
-	voice_ids_index = new_v_id_index
+	var new_v_id_index = randi() % tts_voice_ids.size()
+	while new_v_id_index == tts_voice_ids_index:
+		new_v_id_index = randi() % tts_voice_ids.size()
+	tts_voice_ids_index = new_v_id_index
 
 	DisplayServer.tts_speak(
 		string,
-		voice_ids[voice_ids_index],
+		tts_voice_ids[tts_voice_ids_index],
 		50,
 		1.0,
 		1.0,
@@ -180,14 +180,14 @@ func process_player_state(delta:float):
 		vec_fin = Vector2.ZERO
 
 	if Input.is_action_just_pressed("show_voices"):
-		var voice_ids = DisplayServer.tts_get_voices_for_language('en')
+		var tts_voice_ids = DisplayServer.tts_get_voices_for_language('en')
 		
 		var floating_text = FLOATING_TEXT.instantiate()
 
-		for voice_id in voice_ids:
-			if floating_text.my_text != "":
-				floating_text.my_text += " | "
-			floating_text.my_text += voice_id.name
+		for voice_id in tts_voice_ids:
+			floating_text.my_text += voice_id + " | "
+
+		floating_text.my_text = "Voices: | " + floating_text.my_text
 
 		floating_text.position = dynamic_nodes_handle.position
 		floating_text.position += character_body_2d.transform.x * -400
