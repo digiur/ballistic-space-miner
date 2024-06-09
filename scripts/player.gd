@@ -67,12 +67,12 @@ func _ready():
 	float_text("tts_voices.size(): " + str(tts_voices.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 
 	await get_tree().create_timer(0.5).timeout
+
+	for voice in tts_voices:
+		float_text("voice:name:" + voice.name + " id:" + voice.id + " lang:" + voice.language, dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+		await get_tree().create_timer(0.5).timeout
+
 	float_text("_ready done", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
-	#for voice in tts_voices:
-		#float_text("voice:name:" + voice.name + " id:" + voice.id + " lang:" + voice.language, dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
-		#await get_tree().create_timer(0.5).timeout
-#
-	#float_text("keep going", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 #
 	#tts_strings = tts_string.split(".")
 	#var tts_index = 0
