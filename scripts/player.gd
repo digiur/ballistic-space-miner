@@ -177,6 +177,21 @@ func process_player_state(delta:float):
 		vec_start = Vector2.ZERO
 		vec_fin = Vector2.ZERO
 
+	if Input.is_action_just_pressed("show_voices"):
+		var voice_ids = DisplayServer.tts_get_voices()
+		
+		var floating_text = FLOATING_TEXT.instantiate()
+
+		for voice_id in voice_ids:
+			if floating_text.my_text != "":
+				floating_text.my_text += " | " + voice_id.name
+			floating_text.my_text += voice_id.name
+
+		floating_text.position = dynamic_nodes_handle.position
+		floating_text.position += character_body_2d.transform.x * -400
+		floating_text.rotation = dynamic_nodes_handle.rotation
+		add_child(floating_text)
+
 	var v:Vector2 = current_planet.global_position
 	v -= character_body_2d.global_position
 	v = v.normalized()

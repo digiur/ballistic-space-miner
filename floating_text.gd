@@ -1,6 +1,6 @@
 extends Node2D
 
-var my_text:String = "Default Text"
+var my_text:String = ""
 
 func _ready():
 	$Label.text = my_text
