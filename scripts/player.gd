@@ -60,26 +60,34 @@ func _ready():
 		DisplayServer.TTS_UTTERANCE_STARTED,
 		Callable(self, "speak_callback")
 	)
+
+	await get_tree().create_timer(8).timeout
+	float_text("tts_voice_ids.size(): " + str(tts_voice_ids.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+
 	tts_strings = tts_string.split(".")
 	var tts_index = 0
 	while tts_index < tts_strings.size():
+		await get_tree().create_timer(1).timeout
+
+		var new_v_id_index = randi() % tts_voice_ids.size()
+		while new_v_id_index == tts_voice_ids_index:
+			new_v_id_index = randi() % tts_voice_ids.size()
+
+		float_text(
+			"queue voice line: v_id: " + str(new_v_id_index) + " | str_id: " + str(tts_index) + " | str: " + tts_strings[tts_index].strip_edges(),
+			dynamic_nodes_handle.transform,
+			dynamic_nodes_handle.transform.x * 100
+		)
+
+		await get_tree().create_timer(0.25).timeout
+
 		speak(tts_strings[tts_index], tts_index)
+
+		tts_voice_ids_index = new_v_id_index
+
 		tts_index += 1
 
 func speak(string:String, id:int):
-	float_text("tts_voice_ids.size(): " + str(tts_voice_ids.size()))
-
-	await get_tree().create_timer(3).timeout
-
-	if tts_voice_ids.size() == 0:
-		print("no voices")
-		return
-
-	#var new_v_id_index = randi() % tts_voice_ids.size()
-	#while new_v_id_index == tts_voice_ids_index:
-		#new_v_id_index = randi() % tts_voice_ids.size()
-	#tts_voice_ids_index = new_v_id_index
-
 	DisplayServer.tts_speak(
 		string,
 		tts_voice_ids[tts_voice_ids_index],
@@ -89,16 +97,15 @@ func speak(string:String, id:int):
 		id
 	)
 	
-func float_text(t:String):
+func float_text(text:String, transform:Transform2D, offset:Vector2):
 	var floating_text = FLOATING_TEXT.instantiate()
-	floating_text.my_text = t.strip_edges()
-	floating_text.position = dynamic_nodes_handle.position
-	floating_text.position += character_body_2d.transform.x * -400
-	floating_text.rotation = dynamic_nodes_handle.rotation
+	floating_text.my_text = text.strip_edges()
+	floating_text.global_transform = transform
+	floating_text.position += offset
 	add_child(floating_text)
 
 func speak_callback(i:int):
-	float_text(tts_strings[i])
+	float_text(tts_strings[i], dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * -600)
 	print(tts_strings[i])
 	pass
 
@@ -188,7 +195,7 @@ func process_player_state(delta:float):
 		vec_fin = Vector2.ZERO
 
 	if Input.is_action_just_pressed("show_voices"):
-		float_text("voice: " + tts_voice_ids[tts_voice_ids_index])
+		float_text("voice: " + tts_voice_ids[tts_voice_ids_index], dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 		#var tts_voice_ids = DisplayServer.tts_get_voices_for_language('en')
 
 		#var floating_text = FLOATING_TEXT.instantiate()

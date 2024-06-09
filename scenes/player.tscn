@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://btwmqousqss63"]
+[gd_scene load_steps=52 format=3 uid="uid://btwmqousqss63"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_8tbhg"]
 [ext_resource type="Texture2D" uid="uid://djh1c35lyinwy" path="res://sprites/big_astronaut/Run (32x32).png" id="2_cic4x"]
@@ -333,6 +333,8 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_4emy8"]
 radius = 30.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_lm0dv"]
+
 [sub_resource type="Animation" id="Animation_umphx"]
 resource_name = "jump"
 length = 1.5
@@ -403,7 +405,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_oga53")
-animation = &"flip_butt"
+animation = &"idle"
 autoplay = "idle"
 offset = Vector2(0, -4)
 
@@ -419,6 +421,16 @@ collision_layer = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DynamicNodesHandle/Planet Detector"]
 shape = SubResource("CircleShape2D_4emy8")
 debug_color = Color(0, 0.501961, 0, 0.0980392)
+
+[node name="Area2D" type="Area2D" parent="DynamicNodesHandle"]
+visible = false
+position = Vector2(40, 0)
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DynamicNodesHandle/Area2D"]
+shape = SubResource("CircleShape2D_lm0dv")
+debug_color = Color(0, 0.501961, 0, 0.0588235)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

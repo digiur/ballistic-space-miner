@@ -6,5 +6,4 @@ func _ready():
 	$Label.text = my_text
 	$AnimationPlayer.play("float_up")
 	await $AnimationPlayer.animation_finished
-	print("animation done")
 	queue_free()
