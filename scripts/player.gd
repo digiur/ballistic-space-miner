@@ -55,38 +55,41 @@ var tts_voice_ids_index:int = 0
 
 const FLOATING_TEXT:PackedScene = preload("res://scenes/floating_text.tscn")
 
-func _ready():
-	DisplayServer.tts_set_utterance_callback(
-		DisplayServer.TTS_UTTERANCE_STARTED,
-		Callable(self, "speak_callback")
-	)
-	
-	await get_tree().create_timer(8.25).timeout
-	
-	float_text("tts_voices.size(): " + str(tts_voices.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
-
-	await get_tree().create_timer(0.5).timeout
-	for voice in tts_voices:
-		float_text("voice:name:" + voice.name + " id:" + voice.id + " lang:" + voice.language, dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
-		await get_tree().create_timer(0.5).timeout
-
-	tts_strings = tts_string.split(".")
-	var tts_index = 0
-	while tts_index < tts_strings.size():
-		await get_tree().create_timer(0.5).timeout
-
-		var new_v_id_index = randi() % tts_voices.size()
-		while new_v_id_index == tts_voice_ids_index:
-			new_v_id_index = randi() % tts_voices.size()
-
-		float_text(
-			"queue voice line: v_id: " + str(new_v_id_index) + " | v: " + tts_voices[tts_voice_ids_index].id + " | str_id: " + str(tts_index) + " | str: " + tts_strings[tts_index].strip_edges(),
-			dynamic_nodes_handle.transform,
-			dynamic_nodes_handle.transform.x * 100
-		)
-		speak(tts_strings[tts_index], tts_index)
-		tts_voice_ids_index = new_v_id_index
-		tts_index += 1
+#func _ready():
+	#DisplayServer.tts_set_utterance_callback(
+		#DisplayServer.TTS_UTTERANCE_STARTED,
+		#Callable(self, "speak_callback")
+	#)
+#
+	#await get_tree().create_timer(8.25).timeout
+#
+	#tts_voices = DisplayServer.tts_get_voices()
+	#float_text("tts_voices.size(): " + str(tts_voices.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+#
+	#await get_tree().create_timer(0.5).timeout
+	#for voice in tts_voices:
+		#float_text("voice:name:" + voice.name + " id:" + voice.id + " lang:" + voice.language, dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+		#await get_tree().create_timer(0.5).timeout
+#
+	#float_text("keep going", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+#
+	#tts_strings = tts_string.split(".")
+	#var tts_index = 0
+	#while tts_index < tts_strings.size():
+		#await get_tree().create_timer(0.5).timeout
+#
+		#var new_v_id_index = randi() % tts_voices.size()
+		#while new_v_id_index == tts_voice_ids_index:
+			#new_v_id_index = randi() % tts_voices.size()
+#
+		#float_text(
+			#"queue voice line: v_id: " + str(new_v_id_index) + " | v: " + tts_voices[tts_voice_ids_index].id + " | str_id: " + str(tts_index) + " | str: " + tts_strings[tts_index].strip_edges(),
+			#dynamic_nodes_handle.transform,
+			#dynamic_nodes_handle.transform.x * 100
+		#)
+		#speak(tts_strings[tts_index], tts_index)
+		#tts_voice_ids_index = new_v_id_index
+		#tts_index += 1
 
 func speak(string:String, id:int):
 	DisplayServer.tts_speak(
