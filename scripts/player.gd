@@ -50,7 +50,7 @@ Excellent work. These are the first steps in a journey that leads across the sta
 
 var tts_strings:PackedStringArray
 
-var tts_voice_ids = DisplayServer.tts_get_voices_for_language('en')
+var tts_voices: = DisplayServer.tts_get_voices()
 var tts_voice_ids_index:int = 0
 
 const FLOATING_TEXT:PackedScene = preload("res://scenes/floating_text.tscn")
@@ -60,37 +60,37 @@ func _ready():
 		DisplayServer.TTS_UTTERANCE_STARTED,
 		Callable(self, "speak_callback")
 	)
+	
+	await get_tree().create_timer(8.25).timeout
+	
+	float_text("tts_voices.size(): " + str(tts_voices.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 
-	await get_tree().create_timer(8).timeout
-	float_text("tts_voice_ids.size(): " + str(tts_voice_ids.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+	for voice in tts_voices:
+		await get_tree().create_timer(0.5).timeout
+		float_text("voice:name:" + voice.name + " id:" + voice.id + " lang:" + voice.language, dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 
 	tts_strings = tts_string.split(".")
 	var tts_index = 0
 	while tts_index < tts_strings.size():
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(0.5).timeout
 
-		var new_v_id_index = randi() % tts_voice_ids.size()
+		var new_v_id_index = randi() % tts_voices.size()
 		while new_v_id_index == tts_voice_ids_index:
-			new_v_id_index = randi() % tts_voice_ids.size()
+			new_v_id_index = randi() % tts_voices.size()
 
 		float_text(
-			"queue voice line: v_id: " + str(new_v_id_index) + " | str_id: " + str(tts_index) + " | str: " + tts_strings[tts_index].strip_edges(),
+			"queue voice line: v_id: " + str(new_v_id_index) + " | v: " + tts_voices[tts_voice_ids_index].id + " | str_id: " + str(tts_index) + " | str: " + tts_strings[tts_index].strip_edges(),
 			dynamic_nodes_handle.transform,
 			dynamic_nodes_handle.transform.x * 100
 		)
-
-		await get_tree().create_timer(0.25).timeout
-
 		speak(tts_strings[tts_index], tts_index)
-
 		tts_voice_ids_index = new_v_id_index
-
 		tts_index += 1
 
 func speak(string:String, id:int):
 	DisplayServer.tts_speak(
 		string,
-		tts_voice_ids[tts_voice_ids_index],
+		tts_voices[tts_voice_ids_index].id,
 		50,
 		1.0,
 		1.0,
@@ -193,22 +193,6 @@ func process_player_state(delta:float):
 		next_ballistic_velocity = calc_velocity()
 		vec_start = Vector2.ZERO
 		vec_fin = Vector2.ZERO
-
-	if Input.is_action_just_pressed("show_voices"):
-		float_text("voice: " + tts_voice_ids[tts_voice_ids_index], dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
-		#var tts_voice_ids = DisplayServer.tts_get_voices_for_language('en')
-
-		#var floating_text = FLOATING_TEXT.instantiate()
-
-		#for voice_id in tts_voice_ids:
-			#floating_text.my_text += voice_id + " | "
-
-		#floating_text.my_text = "Voices: | " + floating_text.my_text
-
-		#floating_text.position = dynamic_nodes_handle.position
-		#floating_text.position += character_body_2d.transform.x * -400
-		#floating_text.rotation = dynamic_nodes_handle.rotation
-		#add_child(floating_text)
 
 	var v:Vector2 = current_planet.global_position
 	v -= character_body_2d.global_position
