@@ -50,7 +50,7 @@ Excellent work. These are the first steps in a journey that leads across the sta
 
 var tts_strings:PackedStringArray
 
-var tts_voices:Array[Dictionary] = DisplayServer.tts_get_voices()
+@onready var tts_voices:Array[Dictionary] = DisplayServer.tts_get_voices()
 var tts_voice_ids_index:int = 0
 
 const FLOATING_TEXT:PackedScene = preload("res://scenes/floating_text.tscn")
@@ -99,14 +99,14 @@ func _ready():
 
 	float_text("_ready done", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 
-func speak(string:String, id:int):
+func speak(string:String, index:int):
 	DisplayServer.tts_speak(
 		string,
-		"",
+		tts_voices[tts_voice_ids_index].id,
 		50,
 		1.0,
 		1.0,
-		id
+		index
 	)
 	
 func float_text(text:String, transform:Transform2D, offset:Vector2):
