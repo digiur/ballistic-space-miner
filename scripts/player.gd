@@ -50,7 +50,7 @@ Excellent work. These are the first steps in a journey that leads across the sta
 
 var tts_strings:PackedStringArray
 
-var tts_voices:Array[Dictionary]
+var tts_voices:Array[Dictionary] = DisplayServer.tts_get_voices()
 var tts_voice_ids_index:int = 0
 
 const FLOATING_TEXT:PackedScene = preload("res://scenes/floating_text.tscn")
@@ -63,15 +63,16 @@ func _ready():
 
 	await get_tree().create_timer(8.25).timeout
 
-	tts_voices = DisplayServer.tts_get_voices()
+	while tts_voices.size() == 0:
+		float_text("ERROR: No Voices Available. Retry in 1", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
+		await get_tree().create_timer(1).timeout
+		
+		tts_voices = DisplayServer.tts_get_voices()
+
 	float_text("tts_voices.size(): " + str(tts_voices.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 
 	await get_tree().create_timer(0.5).timeout
 	
-	if tts_voices.size() == 0:
-		float_text("ERROR: No Voices Available", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
-		return
-
 	for voice in tts_voices:
 		float_text("voice:name:" + voice.name + " id:" + voice.id + " lang:" + voice.language, dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 		await get_tree().create_timer(0.5).timeout
@@ -94,6 +95,7 @@ func _ready():
 		speak(tts_strings[tts_index], tts_index)
 		tts_voice_ids_index = new_v_id_index
 		tts_index += 1
+		await get_tree().create_timer(0.5).timeout
 
 	float_text("_ready done", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 
@@ -115,7 +117,7 @@ func float_text(text:String, transform:Transform2D, offset:Vector2):
 	add_child(floating_text)
 
 func speak_callback(i:int): 
-	float_text("callback i: " + str(i), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.y * -50)
+	float_text("callback i: " + str(i), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * -200)
 	float_text(tts_strings[i], dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * -600)
 	print(tts_strings[i])
 	pass
