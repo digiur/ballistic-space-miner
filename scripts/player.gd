@@ -67,13 +67,19 @@ func _ready():
 		tts_index += 1
 
 func speak(string:String, id:int):
-	#if tts_voice_ids.size() == 0:
-		#print("no voices")
-		#return
+	float_text("tts_voice_ids.size(): " + str(tts_voice_ids.size()))
+
+	await get_tree().create_timer(3).timeout
+
+	if tts_voice_ids.size() == 0:
+		print("no voices")
+		return
+
 	#var new_v_id_index = randi() % tts_voice_ids.size()
 	#while new_v_id_index == tts_voice_ids_index:
 		#new_v_id_index = randi() % tts_voice_ids.size()
 	#tts_voice_ids_index = new_v_id_index
+
 	DisplayServer.tts_speak(
 		string,
 		tts_voice_ids[tts_voice_ids_index],
@@ -182,9 +188,9 @@ func process_player_state(delta:float):
 		vec_fin = Vector2.ZERO
 
 	if Input.is_action_just_pressed("show_voices"):
-		float_text(tts_voice_ids[tts_voice_ids_index])
+		float_text("voice: " + tts_voice_ids[tts_voice_ids_index])
 		#var tts_voice_ids = DisplayServer.tts_get_voices_for_language('en')
-		#
+
 		#var floating_text = FLOATING_TEXT.instantiate()
 
 		#for voice_id in tts_voice_ids:
