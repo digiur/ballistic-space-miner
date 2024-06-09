@@ -5,8 +5,9 @@ class_name FollowCamera extends Camera2D
 @export var follow:Player = null
 
 func _ready():
-	global_position = follow.get_follow_position()
-	global_rotation = follow.get_follow_rotation()
+	if follow_mode:
+		global_position = follow.get_follow_position()
+		global_rotation = follow.get_follow_rotation()
 
 func _process(delta:float):
 	if Input.is_action_just_pressed("camera_out"):

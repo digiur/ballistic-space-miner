@@ -53,8 +53,8 @@ initial_velocity = Vector2(-1000, 0)
 [node name="Item4" parent="." instance=ExtResource("5_r6l22")]
 position = Vector2(583, -85)
 
-[node name="Player" parent="." instance=ExtResource("5_6xv1j")]
-position = Vector2(1267, 1899)
+[node name="Player61" parent="." instance=ExtResource("5_6xv1j")]
+position = Vector2(1203, 1647)
 
 [node name="Sector" type="Area2D" parent="."]
 collision_layer = 16
@@ -66,15 +66,16 @@ gravity_direction = Vector2(0, 0)
 gravity = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sector"]
-position = Vector2(1078, 561)
+position = Vector2(1420, 772)
 shape = SubResource("CircleShape2D_tocbc")
 debug_color = Color(1, 1, 1, 0.0588235)
 
 [node name="FollowCamera" type="Camera2D" parent="." node_paths=PackedStringArray("follow")]
+position = Vector2(1284, 1552)
 ignore_rotation = false
 position_smoothing_speed = 10.0
 script = ExtResource("6_5ylwj")
 follow_mode = true
-follow = NodePath("../Player")
+follow = NodePath("../Player61")
 
 [node name="SlingSpawner2" parent="." instance=ExtResource("4_q44g3")]

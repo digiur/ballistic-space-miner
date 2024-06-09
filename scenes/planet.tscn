@@ -57431,7 +57431,6 @@ collision_mask = 12
 
 [node name="PlanetShape" type="CollisionShape2D" parent="PlanetBody"]
 unique_name_in_owner = true
-visible = false
 shape = SubResource("CircleShape2D_hq0ok")
 debug_color = Color(0, 1, 0, 0.0196078)
 

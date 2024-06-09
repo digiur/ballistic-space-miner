@@ -54,7 +54,7 @@ func _draw():
 	draw_line(vec_start, vec_fin, Color.FOREST_GREEN)
 	
 	for i:int in positions.size():
-		draw_line(positions[i], positions[i] - velocities[i], Color.FOREST_GREEN)
+		draw_line(positions[i], positions[i] - velocities[i].normalized() * clamp(velocities[i].length(), 50, 250), Color.FOREST_GREEN)
 
 func calc_velocity() -> Vector2:
 	return (vec_start - vec_fin) * vectorMultiplier

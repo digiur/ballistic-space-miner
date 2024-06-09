@@ -6,6 +6,8 @@ extends Node2D
 
 @export var maxTracerPoints:int = 50
 
+@export var trailColor:Color = Color.WEB_GREEN
+
 @onready var sleep_time: = %SleepTime as Timer
 @onready var item_body: = %ItemBody as RigidBody2D
 
@@ -15,10 +17,10 @@ var lifetime:float = 0.0
 var tracerPos:Array[Vector2] = []
 
 func _draw():
-	var color:Color = Color.CADET_BLUE
+	var color:Color = trailColor
 	for i:int in range(1, tracerPos.size()):
 		color.a = i as float / tracerPos.size() as float
-		draw_line(tracerPos[i-1], tracerPos[i], color)
+		draw_line(tracerPos[i-1], tracerPos[i], color, -20.0)
 
 func _ready():
 	item_body.linear_velocity = initial_velocity
