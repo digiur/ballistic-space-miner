@@ -61,7 +61,7 @@ func _ready():
 		Callable(self, "speak_callback")
 	)
 
-	#await get_tree().create_timer(8.25).timeout
+	await get_tree().create_timer(8.25).timeout
 
 	while tts_voices.size() == 0:
 		float_text("ERROR: No Voices Available. Retry in 1s", dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
@@ -71,7 +71,7 @@ func _ready():
 
 	float_text("tts_voices.size(): " + str(tts_voices.size()), dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
 
-	await get_tree().create_timer(10.5).timeout
+	await get_tree().create_timer(0.5).timeout
 	
 	for voice in tts_voices:
 		float_text("voice:name:" + voice.name + " id:" + voice.id + " lang:" + voice.language, dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100)
