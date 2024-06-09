@@ -429,10 +429,6 @@ libraries = {
 wait_time = 0.5
 autostart = true
 
-[node name="Line2D" type="Line2D" parent="."]
-unique_name_in_owner = true
-points = PackedVector2Array(0, 0, 0, 0)
-
 [connection signal="body_entered" from="RigidBody2D" to="." method="_on_rigid_body_2d_body_entered"]
 [connection signal="sleeping_state_changed" from="RigidBody2D" to="." method="_on_rigid_body_2d_sleeping_state_changed"]
 [connection signal="timeout" from="RigidBody2D/BallisticTimer" to="." method="_on_timer_timeout"]

@@ -44,7 +44,7 @@ func calculate_child_properties():
 		return
 
 	planet_shape.shape.radius = planet_radius
-	gravity_area.gravity = Global.calculate_gravity_acceleration(planet_radius, density)
+	gravity_area.gravity = Dur.calculate_gravity_acceleration(planet_radius, density)
 	gravity_area.gravity_point_unit_distance = planet_radius
 	gravity_shape.shape.radius = gravity_radius
 

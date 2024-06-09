@@ -12,7 +12,6 @@ class_name Player extends Node2D
 @onready var animated_sprite_2d: = %AnimatedSprite2D as AnimatedSprite2D
 @onready var timer: = %BallisticTimer as Timer
 @onready var animation_player: = $AnimationPlayer as AnimationPlayer
-@onready var line_2d = %Line2D as Line2D
 
 enum PlayerState {NONE, BALLISTIC, PLAYER}
 
@@ -33,8 +32,64 @@ const SPAWNEE:PackedScene = preload("res://scenes/item.tscn")
 
 var speed:float = 0.0
 
+var tts_string:String = "Welcome. This is the beginning of a journey. through the outer reaches of the galaxy. The cosmos can be unforgiving. but with the right skills. survival and success are within reach. Today's task is simple yet crucial. mastering the art of navigating through gravity wells. and launching resources between planets.
+
+Take a moment to look around. Absorb the beauty of the universe. the stars. the planets. and the endless possibilities that await. Each celestial body has its own gravitational pull. and mastering this will be key to success.
+
+First, let's start with something fundamental. jumping between gravity wells. See that small moon orbiting the planet. It's the first destination. Engage the thrusters lightly. feel the tug of the planet's gravity. and aim for the moon's gravity well. The onboard computer will assist with trajectory calculations. Remember. speed and angle are crucial.
+
+Ready?. Initiate the jump. Feel the shift?. That's the moon’s gravity taking over. Beautiful. isn’t it?. This is the first successful interplanetary jump. Now, let's move on to resource launching.
+
+There is a crate of supplies that needs to be sent to a base on the neighboring planet. This isn’t just about brute force; it’s about precision. Align the launcher with the planet’s orbit, calculate the escape velocity, and let the crate fly. Too slow, and it will fall back to the moon. Too fast, and it will drift into the void.
+
+Launch now. Watch as the crate sails through space, gracefully caught by the planet’s gravity well. Perfect. Each successful launch and jump brings us one step closer to mastering the stars.
+
+Out here, every move counts, every decision matters. The gravity wells are allies, but they can also be foes if not handled carefully. Use them wisely, and the galaxy will become a playground.
+
+Excellent work. These are the first steps in a journey that leads across the stars. Remember, the cosmos is vast and full of challenges, but with skill and determination, there's nothing that can't be achieved. Now, prepare for the next mission. Adventure awaits."
+
+var tts_strings:PackedStringArray
+
+var voice_ids = DisplayServer.tts_get_voices_for_language('en')
+var voice_ids_index:int = 0
+
+const FLOATING_TEXT:PackedScene = preload("res://scenes/floating_text.tscn")
+
 func _ready():
-	line_2d.global_position = Vector2.ZERO
+	DisplayServer.tts_set_utterance_callback(
+		DisplayServer.TTS_UTTERANCE_STARTED,
+		Callable(self, "speak_callback")
+	)
+	tts_strings = tts_string.split(".")
+	var tts_index = 0
+	while tts_index < tts_strings.size():
+		speak(tts_strings[tts_index], tts_index)
+		tts_index += 1
+
+func speak(string:String, id:int):
+	var new_v_id_index = randi() % voice_ids.size()
+	while new_v_id_index == voice_ids_index:
+		new_v_id_index = randi() % voice_ids.size()
+	voice_ids_index = new_v_id_index
+
+	DisplayServer.tts_speak(
+		string,
+		voice_ids[voice_ids_index],
+		50,
+		1.0,
+		1.0,
+		id
+	)
+
+func speak_callback(i:int):
+	var floating_text = FLOATING_TEXT.instantiate()
+	floating_text.my_text = tts_strings[i].strip_edges()
+	floating_text.position = dynamic_nodes_handle.position
+	floating_text.position += character_body_2d.transform.x * -400
+	floating_text.rotation = dynamic_nodes_handle.rotation
+	add_child(floating_text)
+	print(tts_strings[i])
+	pass
 
 func _process(delta:float):
 	if next_state != current_state:
@@ -44,6 +99,11 @@ func _process(delta:float):
 		current_state = next_state
 
 	process_state(current_state, delta)
+	queue_redraw()
+
+	
+func _draw():
+	draw_line(character_body_2d.position, character_body_2d.position + (vec_start - vec_fin), Color.FOREST_GREEN)
 
 #region Enter
 func enter_state(state:PlayerState):
@@ -100,20 +160,20 @@ func process_player_state(delta:float):
 		aiming = true
 		vec_start = get_global_mouse_position()
 		vec_fin = vec_start
-		line_2d.points[0] = vec_start
+		queue_redraw()
 
 	if Input.is_action_pressed("right_click"):
 		aiming = true
 		vec_fin = get_global_mouse_position()
-		line_2d.points[1] = vec_fin
+		queue_redraw()
 
 	if Input.is_action_just_released("right_click"):
 		print("right click up")
 		aiming = false
 		next_state = PlayerState.BALLISTIC
 		next_ballistic_velocity = calc_velocity()
-		line_2d.points[0] = Vector2.ZERO
-		line_2d.points[1] = Vector2.ZERO
+		vec_start = Vector2.ZERO
+		vec_fin = Vector2.ZERO
 
 	var v:Vector2 = current_planet.global_position
 	v -= character_body_2d.global_position
@@ -124,7 +184,7 @@ func process_player_state(delta:float):
 	character_body_2d.look_at(target)
 
 	if Input.is_action_just_pressed("player_jump"):
-		animated_sprite_2d.animation = Global.player_jump_animations.pick_random()
+		animated_sprite_2d.animation = Dur.player_jump_animations.pick_random()
 		animation_player.play("jump")
 
 	var target_speed:float = 0.0
@@ -144,26 +204,29 @@ func process_player_state(delta:float):
 			target_speed = -walk_speed
 			animated_sprite_2d.animation = "move"
 
-	elif not animation_player.is_playing():
+	else:
 		target_speed = 0
-		animated_sprite_2d.animation = "idle"
+		if not animation_player.is_playing():
+			animated_sprite_2d.animation = "idle"
 
 	if signf(target_speed) == 0 or animation_player.is_playing():
-		speed = move_toward(speed, target_speed, walk_speed * delta)
+		speed = move_toward(speed, target_speed, walk_speed * delta * 1.25) # get these values from the planet
 	elif signf (speed) + signf(target_speed) == 0:
 		speed = move_toward(speed, target_speed, walk_speed * delta * 1.5)
 	else:
-		speed = target_speed
+		speed = move_toward(speed, target_speed, walk_speed * delta * 5.0)
 
 	var forward:Vector2 = character_body_2d.transform.x * speed * delta
 	character_body_2d.velocity = forward
 
 	character_body_2d.move_and_slide()
 
-	character_body_2d.velocity = v * Global.calculate_gravity_acceleration(
+	character_body_2d.velocity = v * Dur.calculate_gravity_acceleration(
 		current_planet.planet_radius,
 		current_planet.density
 	) * delta
+
+
 
 	character_body_2d.move_and_slide()
 
@@ -205,7 +268,7 @@ func _on_planet_detector_body_exited(body):
 	rigid_body_2d.physics_material_override.bounce = bounce
 
 func _on_rigid_body_2d_body_entered(body):
-	rigid_body_2d.physics_material_override.bounce *= Global.bounce_decay_factor
+	rigid_body_2d.physics_material_override.bounce *= Dur.bounce_decay_factor
 
 func _on_rigid_body_2d_sleeping_state_changed():
 	print("sleep state changed")

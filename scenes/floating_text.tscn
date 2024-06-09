@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://7x80gyuj8wsa"]
+
+[ext_resource type="Script" path="res://floating_text.gd" id="1_xmqrx"]
+
+[sub_resource type="Animation" id="Animation_jnki2"]
+resource_name = "float_up"
+length = 20.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 20),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -600)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rpn2s"]
+_data = {
+"float_up": SubResource("Animation_jnki2")
+}
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(-600, 0)
+script = ExtResource("1_xmqrx")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+z_index = -1
+z_as_relative = false
+offset_right = 80.0
+offset_bottom = 23.0
+text = "Label Text"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("../Label")
+libraries = {
+"": SubResource("AnimationLibrary_rpn2s")
+}
