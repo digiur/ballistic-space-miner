@@ -20,7 +20,7 @@ func _draw():
 	var color:Color = trailColor
 	for i:int in range(1, tracerPos.size()):
 		color.a = i as float / tracerPos.size() as float
-		draw_line(tracerPos[i-1], tracerPos[i], color, -20.0)
+		draw_line(tracerPos[i-1], tracerPos[i], color, -20.0, true)
 
 func _ready():
 	item_body.linear_velocity = initial_velocity

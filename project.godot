@@ -19,10 +19,6 @@ config/icon="res://icon.svg"
 
 general/text_to_speech=true
 
-[autoload]
-
-DurAutoload="*res://scripts/dur_autoload.gd"
-
 [input]
 
 camera_out={
