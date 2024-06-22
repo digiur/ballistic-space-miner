@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://btwmqousqss63"]
+[gd_scene load_steps=53 format=3 uid="uid://btwmqousqss63"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_8tbhg"]
 [ext_resource type="Texture2D" uid="uid://djh1c35lyinwy" path="res://sprites/big_astronaut/Run (32x32).png" id="2_cic4x"]
@@ -32,6 +32,10 @@ region = Rect2(64, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_dqopr"]
 atlas = ExtResource("5_vhsmx")
 region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oivdh"]
+atlas = ExtResource("2_e16oy")
+region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iaujb"]
 atlas = ExtResource("5_vhsmx")
@@ -177,7 +181,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_dqopr")
 }, {
 "duration": 10.0,
-"texture": ExtResource("6_7aut3")
+"texture": SubResource("AtlasTexture_oivdh")
 }],
 "loop": true,
 "name": &"dive",
@@ -405,7 +409,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_oga53")
-animation = &"idle"
+animation = &"dive"
 autoplay = "idle"
 offset = Vector2(0, -4)
 
@@ -433,6 +437,7 @@ shape = SubResource("CircleShape2D_lm0dv")
 debug_color = Color(0, 0.501961, 0, 0.0588235)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_33r5s")
 }

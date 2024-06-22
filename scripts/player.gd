@@ -11,7 +11,7 @@ class_name Player extends Node2D
 @onready var character_body_2d: = %CharacterBody2D as CharacterBody2D
 @onready var animated_sprite_2d: = %AnimatedSprite2D as AnimatedSprite2D
 @onready var timer: = %BallisticTimer as Timer
-@onready var animation_player: = $AnimationPlayer as AnimationPlayer
+@onready var animation_player: = %AnimationPlayer as AnimationPlayer
 
 enum PlayerState {NONE, BALLISTIC, PLAYER}
 
@@ -32,110 +32,6 @@ const SPAWNEE:PackedScene = preload("res://scenes/item.tscn")
 
 var character_speed:float = 0.0
 
-var tts_string:String = "Welcome. This is the beginning of a journey. through the outer reaches of the galaxy. The cosmos can be unforgiving. but with the right skills. survival and success are within reach. Today's task is simple yet crucial. mastering the art of navigating through gravity wells. and launching resources between planets.
-
-Take a moment to look around. Absorb the beauty of the universe. the stars. the planets. and the endless possibilities that await. Each celestial body has its own gravitational pull. and mastering this will be key to success.
-
-First, let's start with something fundamental. jumping between gravity wells. See that small moon orbiting the planet. It's the first destination. Engage the thrusters lightly. feel the tug of the planet's gravity. and aim for the moon's gravity well. The onboard computer will assist with trajectory calculations. Remember. speed and angle are crucial.
-
-Ready?. Initiate the jump. Feel the shift?. That's the moon’s gravity taking over. Beautiful. isn’t it?. This is the first successful interplanetary jump. Now, let's move on to resource launching.
-
-There is a crate of supplies that needs to be sent to a base on the neighboring planet. This isn’t just about brute force; it’s about precision. Align the launcher with the planet’s orbit, calculate the escape velocity, and let the crate fly. Too slow, and it will fall back to the moon. Too fast, and it will drift into the void.
-
-Launch now. Watch as the crate sails through space, gracefully caught by the planet’s gravity well. Perfect. Each successful launch and jump brings us one step closer to mastering the stars.
-
-Out here, every move counts, every decision matters. The gravity wells are allies, but they can also be foes if not handled carefully. Use them wisely, and the galaxy will become a playground.
-
-Excellent work. These are the first steps in a journey that leads across the stars. Remember, the cosmos is vast and full of challenges, but with skill and determination, there's nothing that can't be achieved. Now, prepare for the next mission. Adventure awaits."
-
-var tts_strings:PackedStringArray
-
-@onready var tts_voices:Array[Dictionary] = DisplayServer.tts_get_voices()
-var tts_voice_ids_index:int = 0
-
-const FLOATING_TEXT:PackedScene = preload("res://scenes/floating_text.tscn")
-
-func _ready():
-	DisplayServer.tts_set_utterance_callback(
-		DisplayServer.TTS_UTTERANCE_STARTED,
-		Callable(self, "speak_callback")
-	)
-
-	await get_tree().create_timer(8.25).timeout
-
-	while tts_voices.size() == 0:
-		float_text("ERROR: No Voices Available. Retry in 1s",
-			dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100, 2.0, "lower")
-		await get_tree().create_timer(1).timeout
-		
-		tts_voices = DisplayServer.tts_get_voices()
-
-	float_text("bestow " + str(tts_voices.size()) + " voices:",
-		dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100, 2.0, "lower")
-
-	await get_tree().create_timer(1.5).timeout
-	
-	for voice in tts_voices:
-		float_text("voice:" + voice.name + " id:" + voice.id + " lang:" + voice.language,
-			dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100, 2.0, "lower")
-		await get_tree().create_timer(0.5).timeout
-
-	tts_strings = tts_string.split(".")
-	var tts_index = 0
-
-	await get_tree().create_timer(2).timeout
-	while tts_index < tts_strings.size():
-
-		var new_v_id_index = randi() % tts_voices.size()
-		while new_v_id_index == tts_voice_ids_index:
-			new_v_id_index = randi() % tts_voices.size()
-			
-		const move_options:Array[String] = ["float", "lower"]
-		const color_options:Array[String] = ["green", "yellow", "green", "yellow", "red"]
-
-		float_text(
-			"make thy will be known: v_id: " + str(new_v_id_index) + " | str_id: " + str(tts_index) + " | str: " + tts_strings[tts_index].strip_edges() + " | v: " + tts_voices[tts_voice_ids_index].id,
-			dynamic_nodes_handle.transform,
-			(dynamic_nodes_handle.transform.x * (100 + (randi() % 20) - 10)) + (dynamic_nodes_handle.transform.y * ((randi() % 10) - 5)),
-			2.0,
-			move_options.pick_random(),
-			color_options.pick_random()
-		)
-		speak(tts_strings[tts_index], tts_index)
-		tts_voice_ids_index = new_v_id_index
-		tts_index += 1
-		await get_tree().create_timer(0.4).timeout
-
-	float_text("_ready done",
-		dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * 100, 0.5)
-
-func speak(string:String, index:int):
-	DisplayServer.tts_speak(
-		string,
-		tts_voices[tts_voice_ids_index].id,
-		50,
-		1.0,
-		1.0,
-		index
-	)
-	
-func float_text(text:String, transform:Transform2D, offset:Vector2, speed:float = 1.0, float_mode:String = "float", color_mode:String = "green"):
-	var floating_text = FLOATING_TEXT.instantiate()
-	floating_text.my_text = text.strip_edges()
-	floating_text.global_transform = transform
-	floating_text.position += offset
-	floating_text.animation_speed = speed
-	floating_text.float_mode = float_mode
-	floating_text.color_mode = color_mode
-	add_child(floating_text)
-
-func speak_callback(i:int): 
-	float_text("callback i: " + str(i), dynamic_nodes_handle.transform,
-		dynamic_nodes_handle.transform.x * -150 + dynamic_nodes_handle.transform.y * -25, 15, "float", "yellow")
-	float_text(tts_strings[i], dynamic_nodes_handle.transform, dynamic_nodes_handle.transform.x * -400, 0.5, "raise")
-	print(tts_strings[i])
-	pass
-
 func _process(delta:float):
 	if next_state != current_state:
 		exit_state(current_state)
@@ -146,22 +42,21 @@ func _process(delta:float):
 	process_state(current_state, delta)
 	queue_redraw()
 
-	
 func _draw():
 	draw_line(character_body_2d.position, character_body_2d.position + (vec_start - vec_fin), Color.FOREST_GREEN)
 	# Should be using draw_multiline() here
 
 #region Enter
 func enter_state(state:PlayerState):
-	print("enter_state:", state)
+	#print("enter_state:", state)
 	match state:
 		PlayerState.BALLISTIC:
-			enter_balistic_state(state)
+			enter_balistic_state()
 		PlayerState.PLAYER:
-			enter_player_state(state)
+			enter_player_state()
 
-func enter_balistic_state(state:PlayerState):
-	print("enter_balistic_state")
+func enter_balistic_state():
+	(rigid_body_2d.get_child(0) as CollisionShape2D).disabled = false
 	rigid_body_2d.process_mode = Node.PROCESS_MODE_PAUSABLE
 	rigid_body_2d.visible = true
 	rigid_body_2d.set_ballistic_params(
@@ -169,10 +64,10 @@ func enter_balistic_state(state:PlayerState):
 		next_ballistic_velocity
 	)
 
-func enter_player_state(state:PlayerState):
+func enter_player_state():
+	(character_body_2d.get_child(0) as CollisionShape2D).disabled = false
 	character_body_2d.process_mode = Node.PROCESS_MODE_PAUSABLE
 	character_body_2d.visible = true
-	print("enter_player_state")
 #endregion
 
 #region Process
@@ -202,7 +97,7 @@ func process_balistic_state(delta:float):
 func process_player_state(delta:float):
 
 	if Input.is_action_just_pressed("right_click"):
-		print("right click down")
+		#print("right click down")
 		aiming = true
 		vec_start = get_global_mouse_position()
 		vec_fin = vec_start
@@ -214,7 +109,7 @@ func process_player_state(delta:float):
 		queue_redraw()
 
 	if Input.is_action_just_released("right_click"):
-		print("right click up")
+		#print("right click up")
 		aiming = false
 		next_state = PlayerState.BALLISTIC
 		next_ballistic_velocity = calc_velocity()
@@ -281,7 +176,7 @@ func process_player_state(delta:float):
 
 #region Exit
 func exit_state(state:PlayerState):
-	print("exit_state:", state)
+	#print("player exit_state:", state)
 	match state:
 		PlayerState.BALLISTIC:
 			exit_balistic_state(state)
@@ -289,26 +184,26 @@ func exit_state(state:PlayerState):
 			exit_player_state(state)
 
 func exit_balistic_state(state:PlayerState):
-	print("exit_balistic_state")
+	(rigid_body_2d.get_child(0) as CollisionShape2D).disabled = true
 	rigid_body_2d.process_mode = Node.PROCESS_MODE_DISABLED
 	rigid_body_2d.visible = false
 	rigid_body_2d.physics_material_override.bounce = bounce
 	ballistic_state_over = false
 
 func exit_player_state(state:PlayerState):
+	(character_body_2d.get_child(0) as CollisionShape2D).disabled = true
 	character_body_2d.process_mode = Node.PROCESS_MODE_DISABLED
 	character_body_2d.visible = false
-	print("exit_player_state")
 #endregion
 
 #region Signals
 func _on_planet_detector_body_entered(body):
-	print("planet entered")
+	#print("player entered planet")
 	rigid_body_2d.can_sleep = true
 	current_planet = body.get_parent()
 
 func _on_planet_detector_body_exited(body):
-	print("planet exited")
+	#print("player exited planet")
 	current_planet = null
 	rigid_body_2d.can_sleep = false
 	rigid_body_2d.physics_material_override.bounce = bounce
@@ -317,19 +212,18 @@ func _on_rigid_body_2d_body_entered(body):
 	rigid_body_2d.physics_material_override.bounce *= Dur.bounce_decay_factor
 
 func _on_rigid_body_2d_sleeping_state_changed():
-	print("sleep state changed")
+	#print("player sleep state changed")
 	if rigid_body_2d.sleeping:
-		print("is sleeping")
+		#print("player is sleeping")
 		timer.start()
 
 func _on_timer_timeout():
-	print("ballistic timer out")
+	#print("player ballistic timer out")
 	ballistic_state_over = true
 
 func _on_spawn_timer_timeout():
 	if aiming:
 		spawn_item(get_spawn_position(), calc_velocity())
-		float_text(name,dynamic_nodes_handle.transform,Vector2.ZERO)
 #endregion
 
 #region Helpers

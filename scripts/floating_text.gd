@@ -1,6 +1,6 @@
 extends Node2D
 
-var my_text:String = "floating text"
+var floating_text:String = "floating text"
 var animation_speed:float = 1.0
 var float_mode:String = "float"
 var color_mode:String = "green"
@@ -11,9 +11,7 @@ var color_mode:String = "green"
 
 func _ready():
 
-	label.text = my_text
-
-	print(color_mode)
+	label.text = floating_text
 
 	position_animation_player.play(float_mode)
 	position_animation_player.speed_scale = animation_speed

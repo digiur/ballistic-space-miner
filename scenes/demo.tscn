@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bl064vej3vfwc"]
+[gd_scene load_steps=8 format=3 uid="uid://bl064vej3vfwc"]
 
 [ext_resource type="PackedScene" uid="uid://bhjs65t6px30g" path="res://scenes/planet.tscn" id="1_5xw6d"]
 [ext_resource type="PackedScene" uid="uid://hlrljg8iawgt" path="res://scenes/sling_spawner.tscn" id="4_q44g3"]
 [ext_resource type="PackedScene" uid="uid://btwmqousqss63" path="res://scenes/player.tscn" id="5_6xv1j"]
 [ext_resource type="PackedScene" uid="uid://dopu3wr2g8pa7" path="res://scenes/item.tscn" id="5_r6l22"]
+[ext_resource type="PackedScene" uid="uid://b4js2x55pdh8q" path="res://scenes/area_speaker.tscn" id="6_5sngs"]
 [ext_resource type="Script" path="res://scripts/follow_camera.gd" id="6_5ylwj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tocbc"]
@@ -79,3 +80,17 @@ follow_mode = true
 follow = NodePath("../Player61")
 
 [node name="SlingSpawner2" parent="." instance=ExtResource("4_q44g3")]
+
+[node name="AreaSpeaker" parent="." instance=ExtResource("6_5sngs")]
+position = Vector2(1960, 171)
+speech_priority = 1
+text = "This is the beginning of a journey. through the outer reaches of the galaxy. The cosmos can be unforgiving. but with the right skills. survival and success are within reach. Today's task is simple yet crucial. mastering the art of navigating through gravity wells."
+
+[node name="AreaSpeaker2" parent="." instance=ExtResource("6_5sngs")]
+position = Vector2(-6, 886)
+text = "The onboard computer will assist with trajectory calculations. Remember. speed and angle are crucial. Ready?. Initiate the jump. Feel the shift?. That's the moon’s gravity taking over. Beautiful. isn’t it?. This is the first successful interplanetary jump."
+
+[node name="AreaSpeaker3" parent="." instance=ExtResource("6_5sngs")]
+position = Vector2(-1232, 577)
+speech_priority = 2
+text = "Remember, the cosmos is vast and full of challenges, but with skill and determination, there's nothing that can't be achieved. Now, prepare for the next mission. Adventure awaits."

@@ -3,19 +3,19 @@ class_name Planet extends Node2D
 
 @export var planet_radius:int = 100:
 	set(value):
-		print("planet_radius set")
+		# print("planet_radius set")
 		planet_radius = value
 		update_child_properties = true
 
 @export var density:float = 1.0:
 	set(value):
-		print("density set")
+		# print("density set")
 		density = value
 		update_child_properties = true
 
 @export var gravity_radius:float = 5000.0:
 	set(value):
-		print("gravity_radius set")
+		# print("gravity_radius set")
 		gravity_radius = value
 		update_child_properties = true
 
@@ -36,7 +36,7 @@ func _physics_process(_delta):
 
 func _ready():
 	request_ready()
-	print("planet ready")
+	# print("planet ready")
 	calculate_child_properties()
 
 func calculate_child_properties():
@@ -61,4 +61,4 @@ func calculate_child_properties():
 		animated_sprite_2d.visible = true
 
 	update_child_properties = false
-	print("planet child properties calculated")
+	# print("planet child properties calculated")

@@ -19,6 +19,16 @@ config/icon="res://icon.svg"
 
 general/text_to_speech=true
 
+[autoload]
+
+Floater="*res://scripts/text_floater.gd"
+DemoAutoload="*res://scripts/demo_autoload.gd"
+Bus="*res://scripts/bus.gd"
+
+[debug]
+
+file_logging/enable_file_logging=true
+
 [input]
 
 camera_out={
@@ -112,8 +122,9 @@ show_voices={
 2d_physics/layer_1="Planets"
 2d_physics/layer_2="Gravity"
 2d_physics/layer_3="Items"
-2d_physics/layer_4="Player"
-2d_physics/layer_5="Sector"
+2d_physics/layer_4="Players"
+2d_physics/layer_5="Sectors"
+2d_physics/layer_6="Speakers"
 
 [physics]
 
